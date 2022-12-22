@@ -7,6 +7,9 @@ isInvalid(L,C,B) :-
            isElementIn(L,C,B,'\\');
            isElementIn(L,C,B,'\x2f\').
 
+isPiece(L,C,B) :-
+           isPlayerPiece(L,C,B,1); isPlayerPiece(L,C,B,2).
+
 isPlayerPiece(L,C,B,1) :-
            isElementIn(L,C,B,'A').
 
@@ -32,7 +35,52 @@ isMove(L,C,FL,FC) :- %(L,C) -> Posição Atual, (FL,FC) -> Nova Posição
            L = FL, C =\= FC; %movimento na vertical
            C = FC, L =\= FL. %movimento na horizontal
 
-/*
+isCircleMove(L1,C1,L2,C2) :-
+           C1 =\= C2,
+           L1 =\= L2,
+           isInBoard(L1,C1),
+           isInBoard(L2,C2).
+
+isValidMove(L1,C1,L2,C2,B) :-
+           (L1 = L2, C1 = C2); %Quando o caminho já foi todo verificado
+           (isHorMove(L1,C1,L2,C2),
+            (C1 > C2,
+             C is C1 - 1,
+             isFree(L1,C,B),
+             isValidMove(L1,C,L2,C2,B)
+             );
+            (C1 < C2,
+             C is C1 + 1,
+             isFree(L1,C,B),
+             isValidMove(L1,C,L2,C2,B)
+             )
+            );
+           (isVerMove(L1,C1,L2,C2),
+            (L1 > L2,
+             L is L1 - 1,
+             isFree(L,C1,B),
+             isValidMove(L,C1,L2,C2,B)
+             );
+            (L1 < L2,
+             L is L1 + 1,
+             isFree(L,C1,B),
+             isValidMove(L,C1,L2,C2,B)
+             )
+            ).
+
+isVerMove(L1,C1,L2,C2) :-
+           C1 = C2,
+           L1 =\= L2,
+           isInBoard(L1,C1),
+           isInBoard(L2,C2).
+
+isHorMove(L1,C1,L2,C2) :-
+           L1 = L2,
+           C1 =\= C2,
+           isInBoard(L1,C1),
+           isInBoard(L2,C2).
+
 isInBoard(L,C) :- %L -> Linha a verificar, C -> Coluna a verificar
-           (L>0, L<10, C>0, C<10).
- */
+           (L>0, L < 4, C > 3, C < 7);
+           (L>3, L < 7, C > 0, C < 10);
+           (L>6, L < 10, C > 3, C < 7).

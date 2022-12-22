@@ -48,8 +48,8 @@ moveChoice(B,P,N) :-
                 read(L2),
                 write('Insert the column of the position:\n'),
                 read(C2),
-                (\+isFree(L2,C2,B) -> tryMoveAgainMessage, showBoard(B,1), moveChoice(B,P,N), !;
-                        isFree(L2,C2,B),
+                (\+isValidMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage, showBoard(B,1), moveChoice(B,P,N), !;
+                        isValidMove(L1,C1,L2,C2,B),
                         %write('Should move the piece from '), write(L1),write('-'),write(C1), write(' to '),write(L2),write('-'),write(C2), write('\n')
                         movePiece(L1,C1,L2,C2,B,N)
                 )
