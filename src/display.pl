@@ -1,5 +1,7 @@
 %Funções que fazem display do tabuleiro e de elementos complexos do jogo
 
+showErrorMessage :- write('ERROR').
+
 showBoard(B,1) :- % B -> Lista que representa o Tabuleiro.
            write('             Column       \n'),
            write('       |1|2|3|4|5|6|7|8|9|\n'),
@@ -27,18 +29,6 @@ showBoard(B,N) :- % B -> Lista que representa o Tabuleiro. N -> Nº da Linha
            showBoard(R,N1).
 
 showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nº da Linha
-           (N>0 , N<4),
-           [S1|[S2|[S3|_]]] = L,
-           write('     |'),write(S1),write('|'),write(S2),write('|'),write(S3),write('|     |'),
-           write('\n').
-
-showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nº da Linha
-           (N>6 , N<10),
-           write('     '),
-           [S1|[S2|[S3|_]]] = L,
-           write('|'),write(S1),write('|'),write(S2),write('|'),write(S3),write('|     |\n').
-
-showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nº da Linha
-           (N>3, N<7),
+           (N>0, N<10),
            [S1|[S2|[S3|[S4|[S5|[S6|[S7|[S8|[S9|_]]]]]]]]] = L,
            write(S1),write('|'),write(S2),write('|'),write(S3),write('|'),write(S4),write('|'),write(S5),write('|'),write(S6),write('|'),write(S7),write('|'),write(S8),write('|'),write(S9),write('|\n').
