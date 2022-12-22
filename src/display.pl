@@ -1,7 +1,5 @@
 %Funções que fazem display do tabuleiro e de elementos complexos do jogo
 
-showErrorMessage :- write('ERROR').
-
 showBoard(B,1) :- % B -> Lista que representa o Tabuleiro.
            write('             Column       \n'),
            write('       |1|2|3|4|5|6|7|8|9|\n'),
