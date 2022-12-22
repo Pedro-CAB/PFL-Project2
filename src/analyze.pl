@@ -44,29 +44,33 @@ isCircleMove(L1,C1,L2,C2) :-
 isValidMove(L1,C1,L2,C2,B) :-
            (L1 = L2, C1 = C2); %Quando o caminho já foi todo verificado
            (isHorMove(L1,C1,L2,C2),
-            (C1 > C2,
-             C is C1 - 1,
-             isFree(L1,C,B),
-             isValidMove(L1,C,L2,C2,B)
+             (
+                 (\+(C1 < 9) -> C is 1; C is C1 + 1),
+                 isFree(L1,C,B),
+                 isValidMove(L1,C,L2,C2,B)
              );
-            (C1 < C2,
-             C is C1 + 1,
-             isFree(L1,C,B),
-             isValidMove(L1,C,L2,C2,B)
+             (
+                 (\+(C1 > 1) -> C is 9; C is C1 - 1),
+                 isFree(L1,C,B),
+                 isValidMove(L1,C,L2,C2,B)
              )
-            );
+           );
            (isVerMove(L1,C1,L2,C2),
-            (L1 > L2,
-             L is L1 - 1,
-             isFree(L,C1,B),
-             isValidMove(L,C1,L2,C2,B)
+             (
+                 (\+(L1 < 9) -> L is 1; L is L1 + 1),
+                 isFree(L,C1,B),
+                 isValidMove(L,C1,L2,C2,B)
              );
-            (L1 < L2,
-             L is L1 + 1,
-             isFree(L,C1,B),
-             isValidMove(L,C1,L2,C2,B)
+             (
+                 (\+(L1 > 1) -> L is 9; L is L1 - 1),
+                 isFree(L,C1,B),
+                 isValidMove(L,C1,L2,C2,B)
              )
-            ).
+           ).
+
+isEdge(L,C) :-
+           ((L = 1 ; L = 9), (C = 4 ; C = 6)); %(1,4),(9,4),(1,6),(9,6)
+           ((L = 4 ; L = 6), (C = 1 ; C = 9)). %(4,1),(6,1),(4,9),(6,9)
 
 isVerMove(L1,C1,L2,C2) :-
            C1 = C2,
