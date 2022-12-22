@@ -3,16 +3,14 @@
 :- consult(utils).
 
 play :-
-           write('Welcome to Wana!\n'),
-           write('Select a gamemode:\n'),
-           write('(a) Player vs Player\n'),
-           write('(b) Player vs Computer\n'),
-           write('(c) Computer vs Computer\n'),
+           drawMainMenu,
+           read(N),
+           drawGameMenu(N),
            read(M),
            start(M).
 
 start(M) :-
-           M = a,
+           M = 1,
            Board = [ ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
@@ -25,7 +23,7 @@ start(M) :-
            game(M,Board).    
 
 game(M,B) :-
-           M = a,
+           M = 1,
            turn(1,B,N),
            %not(win(B)), win/lose shows board and result (who won)
            turn(2,N,R),
