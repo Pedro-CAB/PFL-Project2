@@ -42,13 +42,13 @@ moveChoice(B,P) :-
            read(L1),
            write('Insert the column of the piece:\n'),
            read(C1),
-           (\+isPlayerPiece(L1,C1,B,P) -> pieceChoiceMessage(P), showBoard(B,1), moveChoice(B,P),!,fail; isPlayerPiece(L1,C1,B,P)),
+           (\+isPlayerPiece(L1,C1,B,P) -> pieceChoiceMessage(P), showBoard(B,1), moveChoice(B,P),!; isPlayerPiece(L1,C1,B,P)),
            write('Where do you want to move it to?\n'),
            write('Insert the line of the position:\n'),
            read(L2),
            write('Insert the column of the position:\n'),
            read(C2),
-           (\+isFree(L2,C2,B) -> tryMoveAgainMessage, showBoard(B,1), moveChoice(B,P), !, fail; isFree(L2,C2,B)),
+           (\+isFree(L2,C2,B) -> tryMoveAgainMessage, showBoard(B,1), moveChoice(B,P), !; isFree(L2,C2,B)),
            write('Should move the piece from '), write(L1),write('-'),write(C1), write(' to '),write(L2),write('-'),write(C2), write('\n'). %TODO - move.
 
 pieceChoiceMessage(P) :- write('There isn\'t any pieces of yours there!\n'),
