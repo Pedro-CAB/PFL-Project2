@@ -1,5 +1,39 @@
 %Funções que fazem display do tabuleiro e de elementos complexos do jogo
 
+drawMainMenu :-
+                        write('______________________________________________\n'),
+                        write('|                                             |\n'),
+                        write('|        \\ \\                      / /         |\n'),
+                        write('|         \\ \\                    / /          |\n'),
+                        write('|          \\ \\      / /\\ \\      / /           |\n'),
+                        write('|           \\ \\    / /  \\ \\    / /            |\n'),
+                        write('|            \\ \\  / /    \\ \\  / /             |\n'),
+                        write('|             \\ \\/ /      \\ \\/ /              |\n'),
+                        write('|              Welcome to Wana!               |\n'),   
+                        write('|                                             |\n'),
+                        write('|               1 - Start Game                |\n'),    
+                        write('|               2 - Rules                     |\n'),
+                        write('|               3 - About Us                  |\n'),
+                        write('|               4 - Exit Game                 |\n'),
+                        write('|_____________________________________________|\n').
+
+drawGameMenu(N) :-
+        N=1,
+        write('______________________________________________\n'),
+        write('|       _____                                 |\n'),
+        write('|      / ____|                                |\n'),
+        write('|     | |  __   __ _  _ __ ___    ___         |\n'),
+        write('|     | | |_ | / _  || _  _   \\  / _ \\        |\n'),
+        write('|     | |__| || (_| || | | | | ||  __/        |\n'),
+        write('|      \\_____| \\__,_||_| |_| |_| \\___|        |\n'),
+        write('|                                             |\n'),   
+        write('|              Select a gamemode:             |\n'),
+        write('|                                             |\n'),   
+        write('|            1 - Player vs Player             |\n'),
+        write('|            2 - Player vs Computer           |\n'),
+        write('|            3 - Computer vs Computer         |\n'),
+        write('|_____________________________________________|\n').
+
 showBoard(B,1) :- % B -> Lista que representa o Tabuleiro.
            write('             Column       \n'),
            write('       |1|2|3|4|5|6|7|8|9|\n'),
@@ -27,18 +61,6 @@ showBoard(B,N) :- % B -> Lista que representa o Tabuleiro. N -> Nº da Linha
            showBoard(R,N1).
 
 showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nº da Linha
-           (N>0 , N<4),
-           [S1|[S2|[S3|_]]] = L,
-           write('     |'),write(S1),write('|'),write(S2),write('|'),write(S3),write('|     |'),
-           write('\n').
-
-showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nº da Linha
-           (N>6 , N<10),
-           write('     '),
-           [S1|[S2|[S3|_]]] = L,
-           write('|'),write(S1),write('|'),write(S2),write('|'),write(S3),write('|     |\n').
-
-showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nº da Linha
-           (N>3, N<7),
+           (N>0, N<10),
            [S1|[S2|[S3|[S4|[S5|[S6|[S7|[S8|[S9|_]]]]]]]]] = L,
            write(S1),write('|'),write(S2),write('|'),write(S3),write('|'),write(S4),write('|'),write(S5),write('|'),write(S6),write('|'),write(S7),write('|'),write(S8),write('|'),write(S9),write('|\n').
