@@ -1,6 +1,5 @@
 :- consult(display).
 :- consult(analyze).
-:- consult(utils).
 
 play :-
            drawMainMenu,
