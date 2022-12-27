@@ -70,14 +70,14 @@ isValidMove(L1,C1,L2,C2,B) :-
                  isSquare(L1,C1,1), write('Entered Sector 1\n'),
               (
                   write('Starting Circle Move in Sector 1 (right)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is 4, C is 10 - L1); (L is L1, C is C1 + 1)),
+                  (\+(isRightEdge(L1,C1)) -> (L is L1, C is C1 + 1); (L is 4, C is 10 - L1)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
               );
               (
                   write('Starting Circle Move in Sector 1 (left)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is 4, C is L1); (L is L1, C is C1 - 1)),
+                  (\+(isLeftEdge(L1,C1)) -> (L is L1, C is C1 - 1); (L is 4, C is L1)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
@@ -87,14 +87,14 @@ isValidMove(L1,C1,L2,C2,B) :-
                  isSquare(L1,C1,5), write('Entered Sector 5\n'),
               (
                   write('Starting Circle Move in Sector 5 (right)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is 6, C is L1); (L is L1, C is C1 + 1)),
+                  (\+(isRightEdge(L1,C1)) -> (L is L1, C is C1 + 1); (L is 6, C is L1)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
               );
               (
                   write('Starting Circle Move in Sector 5 (left)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is 6, C is 10 - L1); (L is L1, C is C1 - 1)),
+                  (\+(isLeftEdge(L1,C1)) -> (L is L1, C is C1 - 1); (L is 6, C is 10 - L1)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
@@ -104,14 +104,14 @@ isValidMove(L1,C1,L2,C2,B) :-
                  (isSquare(L1,C1,2)),write('Entered Sector 2\n'),
               (
                   write('Starting Circle Move in Sector 2 (down)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is 10 - C1, C is 4); (L is L1 + 1, C is C1)),
+                  (\+(isLowerEdge(L1,C1)) -> (L is L1 + 1, C is C1); (L is 10 - C1, C is 4)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
               );
               (
                   write('Starting Circle Move in Sector 2 (up)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is C1, C is 4); (L is L1 - 1, C is C1)),
+                  (\+(isUpperEdge(L1,C1)) -> (L is L1 - 1, C is C1); (L is C1, C is 4)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
@@ -121,14 +121,14 @@ isValidMove(L1,C1,L2,C2,B) :-
                  (isSquare(L1,C1,4)),write('Entered Sector 4\n'),
               (
                   write('Starting Circle Move in Sector 4 (down)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is C1, C is 6); (L is L1 + 1, C is C1)),
+                  (\+(isLowerEdge(L1,C1)) -> (L is L1 + 1, C is C1); (L is C1, C is 6)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
               );
               (
                   write('Sarting Circle Move in Sector 4 (up)\n'),
-                  (\+(isEdge(L1,C1)) -> (L is 10 - C1, C is 6); (L is L1 - 1, C is C1)),
+                  (\+(isUpperEdge(L1,C1)) -> (L is L1 - 1, C is C1); (L is 10 - C1, C is 6)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,B)
@@ -144,6 +144,18 @@ isSquare(L,C,N) :-
            (N = 4, L > 3, L < 7, C > 6, C < 10);
            (N = 5, L > 6, L < 10, C > 3, C < 7).
            
+isLeftEdge(L,C) :-
+           isEdge(L,C), C = 4, (isSquare(L,C,1);isSquare(L,C,5)).
+
+isRightEdge(L,C) :-
+           isEdge(L,C), C = 6, (isSquare(L,C,1);isSquare(L,C,5)).   
+
+isUpperEdge(L,C) :-
+           isEdge(L,C), L = 4, (isSquare(L,C,2);isSquare(L,C,4)).
+
+isLowerEdge(L,C) :-
+           isEdge(L,C), L = 6, (isSquare(L,C,2);isSquare(L,C,4)).         
+
 
 isEdge(L,C) :- %identifica pontos de entrada em curvas
            ((L = 1 ; L = 2 ; L = 3; L = 7; L = 8; L = 9), (C = 4 ; C = 6));
