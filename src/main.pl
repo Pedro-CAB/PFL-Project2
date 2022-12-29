@@ -11,6 +11,17 @@ play :-
 
 start(M) :-
            M = 1,
+           %BOARDS DE TESTE DE MOVIMENTO
+           /*Board = [ ['\x2f\','\x2f\','\x2f\','O','A','A','\\','\\','\\'],
+                     ['\x2f\','\x2f\','\x2f\','O','O','O','\\','\\','\\'],
+                     ['\x2f\','\x2f\','\x2f\','O','O','O','\\','\\','\\'],
+                     ['O','O','O','O','O','O','O','O','O'],
+                     ['O','O','O','O','O','O','O','O','O'],
+                     ['O','O','O','B','O','B','O','O','O'],
+                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
+                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
+                     ['\\','\\','\\','O','O','O','\x2f\','\x2f\','\x2f\']],*/
+           %BOARD CORRETO ABAIXO
            Board = [ ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
@@ -48,8 +59,8 @@ moveChoice(B,P,N) :-
                 read(L2),
                 write('Insert the column of the position:\n'),
                 read(C2),
-                (\+isValidMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage, showBoard(B,1), moveChoice(B,P,N), !;
-                        isValidMove(L1,C1,L2,C2,B),
+                (\+isAllowedMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage, showBoard(B,1), moveChoice(B,P,N), !;
+                        isAllowedMove(L1,C1,L2,C2,B),
                         %write('Should move the piece from '), write(L1),write('-'),write(C1), write(' to '),write(L2),write('-'),write(C2), write('\n')
                         movePiece(L1,C1,L2,C2,B,N)
                 )
