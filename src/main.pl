@@ -33,13 +33,25 @@ start(M) :-
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']],
            game(M,Board).    
 
-game(M,B) :-
-           M = 1,
+game(1,B) :-
+           checkBeforeTurn(1,B),
            turn(1,B,N),
            %not(win(B)), win/lose shows board and result (who won)
+           checkBeforeTurn(2,N),
            turn(2,N,R),
            %not(win(B)),
-           game(M,R).
+           game(1,R).
+
+game(1,B) :-
+           \+checkBeforeTurn(1,B),
+           write('Player 2 Wins! Better luck next time, Player 1...').
+
+game(1,B) :-
+           checkBeforeTurn(1,B),
+           turn(1,B,N),
+           %not(win(B)), win/lose shows board and result (who won)
+           \+checkBeforeTurn(2,N),
+           write('Player 1 Wins! Better luck next time, Player 2...').
 
 turn(P,B,N) :-
            write('Player '), write(P), write(' turn...\n'),
