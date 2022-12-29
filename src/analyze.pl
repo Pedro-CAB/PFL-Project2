@@ -34,7 +34,6 @@ isAllowedMove(L1,C1,L2,C2,B) :-
            isValidMove(L1,C1,L2,C2,1,B)); isValidMove(L1,C1,L2,C2,-1,B)).
 
 isValidMove(L1,C1,L2,C2,S,B) :-
-           write('Called for position ( '), write(L1), write(','),write(C1),write(')\n'),
            (L1 = L2, C1 = C2); %Quando o caminho já foi todo verificado
            isHorMove(L1,C1,L2,C2) ->
              (
@@ -66,7 +65,7 @@ isValidMove(L1,C1,L2,C2,S,B) :-
                      isValidMove(L,C1,L2,C2,S,B)
                  )
              );
-           (isCircleMove(L1,C1,L2,C2), write('Stuck In Circle Options\n') ->
+           (isCircleMove(L1,C1,L2,C2) ->
             (
              (
                  isSquare(L1,C1,1),
