@@ -31,13 +31,13 @@ indexOf(I,L,E) :- % I -> Index do Elemento, L -> Lista, E -> Valor do Elemento d
            indexOf(I1,L1,E).
 
 isAllowedMove(L1,C1,L2,C2,B) :-
-           (isValidMove(L1,C1,L2,C2,1,B), write('\n\nCalculating Positive Path...\n'));
-           (isValidMove(L1,C1,L2,C2,-1,B), write('\n\nCalculating Negative Path...\n')).
+           (write('\n\nCalculating Positive Path...\n'), isValidMove(L1,C1,L2,C2,1,B));
+           (write('\n\nCalculating Negative Path...\n'), isValidMove(L1,C1,L2,C2,-1,B)).
 
 isValidMove(L1,C1,L2,C2,S,B) :-
            write('Called for position ( '), write(L1), write(','),write(C1),write(')\n'),
            (L1 = L2, C1 = C2); %Quando o caminho já foi todo verificado
-           (isHorMove(L1,C1,L2,C2),
+           isHorMove(L1,C1,L2,C2) ->
              (
                  (
                      S == 1,
@@ -53,9 +53,8 @@ isValidMove(L1,C1,L2,C2,S,B) :-
                      isValidMove(L1,C,L2,C2,S,B),
                      write('Stuck In Horizontal Option 2\n')
                  )
-             )
-           );
-           (isVerMove(L1,C1,L2,C2),
+             );
+           isVerMove(L1,C1,L2,C2) ->
              (
                  (
                      S == 1,
@@ -71,16 +70,16 @@ isValidMove(L1,C1,L2,C2,S,B) :-
                      isValidMove(L,C1,L2,C2,S,B),
                      write('Stuck In Vertical Option 2\n')
                  )
-             )
-           );
-           (isCircleMove(L1,C1,L2,C2), write('Stuck In Circle Options\n'),
+             );
+           (isCircleMove(L1,C1,L2,C2), write('Stuck In Circle Options\n') ->
+            (
              (
                  isSquare(L1,C1,1), write('Entered Sector 1\n'),
                   write('Starting Circle Move in Sector 1\n'),
-                  ((isRightEdge(L1,C1), S == 1) -> (L is 4, C is L1);
-                   (isLeftEdge(L1,C1), S == -1) -> (L is 4, C is 10- L1);
-                   (S == -1) -> (L is L1, C is C1 - 1);
-                   (S == 1) -> (L is L1, C is C1 + 1)),
+                  ((isRightEdge(L1,C1), S == 1) -> (L is 4, C is 10 - L1); %no sentido positivo, roda pela direita
+                   (isLeftEdge(L1,C1), S == -1) -> (L is 4, C is L1); %no sentido negativo, roda pela esquerda
+                   (S == -1) -> (L is L1, C is C1 - 1); %Coluna 5 no sentido negativo: Esquerda
+                   (S == 1) -> (L is L1, C is C1 + 1)), %Coluna 5 no sentido positivo: Direita
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,S,B)
@@ -88,8 +87,8 @@ isValidMove(L1,C1,L2,C2,S,B) :-
             (
                  isSquare(L1,C1,5), write('Entered Sector 5\n'),
                   write('Starting Circle Move in Sector 5\n'),
-                  ((isRightEdge(L1,C1)) -> (L is 6, C is L1);
-                   (isLeftEdge(L1,C1)) -> (L is 6, C is 10 - L1);
+                  ((isRightEdge(L1,C1), S == -1) -> (L is 6, C is L1);
+                   (isLeftEdge(L1,C1), S == 1) -> (L is 6, C is 10 - L1);
                    (S == -1) -> (L is L1, C is C1 + 1);
                    (S == 1) -> (L is L1, C is C1 - 1)),
                   isFree(L,C,B),
@@ -99,8 +98,8 @@ isValidMove(L1,C1,L2,C2,S,B) :-
              (
                  (isSquare(L1,C1,2)),write('Entered Sector 2\n'),
                   write('Starting Circle Move in Sector 2 (down)\n'),
-                  ((isLowerEdge(L1,C1)) -> (L is 10 - C1, C is 4);
-                   (isUpperEdge(L1,C1)) -> (L is C1, C is 4);
+                  ((isLowerEdge(L1,C1), S == -1) -> (L is 10 - C1, C is 4);
+                   (isUpperEdge(L1,C1), S == 1) -> (L is C1, C is 4);
                    (S == -1) -> (L is L1 + 1, C is C1);
                    (S == 1) -> (L is L1 -1, C is C1)),
                   isFree(L,C,B),
@@ -110,14 +109,15 @@ isValidMove(L1,C1,L2,C2,S,B) :-
              (
                  (isSquare(L1,C1,4)),write('Entered Sector 4\n'),
                   write('Starting Circle Move in Sector 4 (down)\n'),
-                  ((isLowerEdge(L1,C1)) -> (L is C1, C is 6);
-                   (isUpperEdge(L1,C1)) -> (L is 10 - C1, C is 6);
+                  ((isLowerEdge(L1,C1), S == 1) -> (L is C1, C is 6);
+                   (isUpperEdge(L1,C1), S == -1) -> (L is 10 - C1, C is 6);
                    (S == 1) -> (L is L1 + 1, C is C1);
                    (S == -1) -> (L is L1 - 1, C is C1)),
                   isFree(L,C,B),
                   write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,S,B)
              )
+            )
            ).
            
 
