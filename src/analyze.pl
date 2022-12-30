@@ -109,12 +109,16 @@ isValidMove(L1,C1,L2,C2,S,B) :-
 checkBeforeTurn(P,B) :-
            isInPlay(1,4,P,B).
 
+isInPlay(9,7,_,_) :-
+           true.
+
 isInPlay(L,C,P,B) :-
-           ((L = 9, C = 7);
-           (   %Ou não está no tabuleiro, ou é uma peça que se pode mover do jogador ou não é uma peça do jogador
-                   (\+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));\+isPlayerPiece(L,C,B,P)),
-                   (C == 9, L1 is L + 1, isInPlay(L1,1,P,B));(C < 9, C1 is C + 1, isInPlay(L,C1,P,B))
-           )).
+           (C == 9, checkMovablePiece(L,C,P,B), L1 is L + 1, isInPlay(L1,1,P,B));
+           (C < 9, checkMovablePiece(L,C,P,B), C1 is C + 1, isInPlay(L,C1,P,B)).
+
+checkMovablePiece(L,C,P,B) :-
+           %Ou não está no tabuleiro, ou é uma peça que se pode mover do jogador ou não é uma peça do jogador
+               \+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));\+isPlayerPiece(L,C,B,P).                        
 
 canMove(L,C,B) :-
            (isSquare(L,C,1),

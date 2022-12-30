@@ -36,14 +36,11 @@ start(M) :-
 game(1,B) :-
            checkBeforeTurn(1,B),
            write('Player 1 turn...\n'),
-           showBoard(B,1),
            turn(1,B,N),
-           showBoard(N,1),
            %not(win(B)), win/lose shows board and result (who won)
            checkBeforeTurn(2,N),
            write('Player 2 turn...\n'),
            turn(2,N,R),
-           showBoard(R,1),
            %not(win(B)),
            game(1,R).
 
@@ -55,12 +52,12 @@ game(1,B) :-
            checkBeforeTurn(1,B),
            write('Player 1 turn...\n'),
            turn(1,B,N),
-           showBoard(B,1),
            %not(win(B)), win/lose shows board and result (who won)
            \+checkBeforeTurn(2,N),
            write('Player 1 Wins! Better luck next time, Player 2...').
 
 turn(P,B,N) :-
+           showBoard(B,1),
            moveChoice(B,P,N).
                 
 moveChoice(B,P,N) :-
