@@ -12,17 +12,17 @@ play :-
 start(M) :-
            M = 1,
            %BOARDS DE TESTE DE MOVIMENTO
-           /*Board = [ ['\x2f\','\x2f\','\x2f\','O','A','A','\\','\\','\\'],
-                     ['\x2f\','\x2f\','\x2f\','O','O','O','\\','\\','\\'],
-                     ['\x2f\','\x2f\','\x2f\','O','O','O','\\','\\','\\'],
+           Board = [ ['\x2f\','\x2f\','\x2f\','O','A','A','\\','\\','\\'],
+                     ['\x2f\','\x2f\','\x2f\','A','B','A','\\','\\','\\'],
+                     ['\x2f\','\x2f\','\x2f\','A','A','O','\\','\\','\\'],
                      ['O','O','O','O','O','O','O','O','O'],
                      ['O','O','O','O','O','O','O','O','O'],
                      ['O','O','O','B','O','B','O','O','O'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
-                     ['\\','\\','\\','O','O','O','\x2f\','\x2f\','\x2f\']],*/
+                     ['\\','\\','\\','O','O','B','\x2f\','\x2f\','\x2f\']],
            %BOARD CORRETO ABAIXO
-           Board = [ ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
+           /*Board = [ ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['O','O','O','A','O','A','O','O','O'],
@@ -30,15 +30,20 @@ start(M) :-
                      ['O','O','O','B','O','B','O','O','O'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
-                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']],
+                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']],*/
            game(M,Board).    
 
 game(1,B) :-
            checkBeforeTurn(1,B),
+           write('Player 1 turn...\n'),
+           showBoard(B,1),
            turn(1,B,N),
+           showBoard(N,1),
            %not(win(B)), win/lose shows board and result (who won)
            checkBeforeTurn(2,N),
+           write('Player 2 turn...\n'),
            turn(2,N,R),
+           showBoard(R,1),
            %not(win(B)),
            game(1,R).
 
@@ -48,14 +53,14 @@ game(1,B) :-
 
 game(1,B) :-
            checkBeforeTurn(1,B),
+           write('Player 1 turn...\n'),
            turn(1,B,N),
+           showBoard(B,1),
            %not(win(B)), win/lose shows board and result (who won)
            \+checkBeforeTurn(2,N),
            write('Player 1 Wins! Better luck next time, Player 2...').
 
 turn(P,B,N) :-
-           write('Player '), write(P), write(' turn...\n'),
-           showBoard(B,1),
            moveChoice(B,P,N).
                 
 moveChoice(B,P,N) :-

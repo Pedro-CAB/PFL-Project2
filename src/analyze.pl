@@ -31,7 +31,7 @@ indexOf(I,L,E) :- % I -> Index do Elemento, L -> Lista, E -> Valor do Elemento d
            indexOf(I1,L1,E).
 
 isAllowedMove(L1,C1,L2,C2,B) :-
-           isValidMove(L1,C1,L2,C2,1,B)); isValidMove(L1,C1,L2,C2,-1,B)).
+           isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B).
 
 isValidMove(L1,C1,L2,C2,S,B) :-
            (L1 = L2, C1 = C2); %Quando o caminho já foi todo verificado
@@ -110,46 +110,45 @@ checkBeforeTurn(P,B) :-
            isInPlay(1,4,P,B).
 
 isInPlay(L,C,P,B) :-
-           (L = 9, C = 9);
-           (
-               (\+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));(\+isPlayerPiece(L,C,B,P))),
-               ((C + 1 > 9) -> (C1 is 1, L1 is L + 1);(C1 is C + 1, L1 is L)),
-               isInPlay(L1,C1,P,B)
-           ).
+           ((L = 9, C = 7);
+           (   %Ou não está no tabuleiro, ou é uma peça que se pode mover do jogador ou não é uma peça do jogador
+                   (\+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));\+isPlayerPiece(L,C,B,P)),
+                   (C == 9, L1 is L + 1, isInPlay(L1,1,P,B));(C < 9, C1 is C + 1, isInPlay(L,C1,P,B))
+           )).
 
 canMove(L,C,B) :-
-           (isSquare(L,C,1) ->
-                (
-                        (isLeftEdge(L,C) -> isAllowedMove(L,C,4,L,B); isAllowedMove(L,C,L,C-1,B));
-                        (isRightEdge(L,C) -> isAllowedMove(L,C,4,10-L,B); isAllowedMove(L,C,L,C+1,B));
-                        isAllowedMove(L,C,L-1,C,B);
-                        isAllowedMove(L,C,L+1,C,B)
-                )
-           );
-           (isSquare(L,C,5) ->
-                (
-                        (isLeftEdge(L,C) -> isAllowedMove(L,C,6,10-L,B); isAllowedMove(L,C,L,C-1,B));
-                        (isRightEdge(L,C) -> isAllowedMove(L,C,6,L,B); isAllowedMove(L,C,L,C+1,B));
-                        isAllowedMove(L,C,L-1,C,B);
-                        isAllowedMove(L,C,L+1,C,B)
-                )
-           );
-           (isSquare(L,C,2) ->
-                (
-                        (isUpperEdge(L,C) -> isAllowedMove(L,C,C,4,B); isAllowedMove(L,C,L-1,C,B));
-                        (isLowerEdge(L,C) -> isAllowedMove(L,C,10-C,4,B); isAllowedMove(L,C,L+1,C,B));
-                        isAllowedMove(L,C,L,C-1,B);
-                        isAllowedMove(L,C,L,C+1,B)
-                )
-           );
-           (isSquare(L,C,4) ->
-                (
-                        (isUpperEdge(L,C) -> isAllowedMove(L,C,10-C,6,B); isAllowedMove(L,C,L-1,C,B));
-                        (isLowerEdge(L,C) -> isAllowedMove(L,C,C,6,B); isAllowedMove(L,C,L+1,C,B));
-                        isAllowedMove(L,C,L,C-1,B);
-                        isAllowedMove(L,C,L,C+1,B)
-                )
-           ).
+           (isSquare(L,C,1),
+                ((isLeftEdge(L,C), isFree(4,L,B));
+                 isFree(L,C-1,B);
+                (isRightEdge(L,C),isFree(4,10-L,B));
+                 isFree(L,C+1,B);
+                 isFree(L-1,C,B);
+                 isAllowedMove(L,C,L+1,C,B)
+                ));
+           (isSquare(L,C,5),
+                ((isLeftEdge(L,C),isFree(6,10-L,B));
+                  isFree(L,C-1,B);
+                 (isRightEdge(L,C),isFree(6,L,B));
+                  isFree(L,C+1,B);
+                  isFree(L-1,C,B);
+                  isFree(L+1,C,B)
+                ));
+           (isSquare(L,C,2),
+                ((isUpperEdge(L,C),isFree(C,4,B));
+                  isFree(L-1,C,B);
+                 (isLowerEdge(L,C),isFree(10-C,4,B));
+                  isFree(L+1,C,B);
+                  isFree(L,C-1,B);
+                  isFree(L,C+1,B)
+                ));
+           (isSquare(L,C,4),
+                ((isUpperEdge(L,C),isFree(10-C,6,B));
+                  isFree(L-1,C,B);
+                 (isLowerEdge(L,C),isFree(C,6,B));
+                  isFree(L+1,C,B);
+                  isFree(L,C-1,B);
+                  isFree(L,C+1,B)
+                )).
 
 isSquare(L,C,N) :-
            (N = 1, L > 0, L < 4, C > 3, C < 7);
