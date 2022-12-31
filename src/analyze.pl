@@ -65,14 +65,14 @@ isValidMove(L1,C1,L2,C2,S,B) :-
                      isValidMove(L,C1,L2,C2,S,B)
                  )
              );
-           (isCircleMove(L1,C1,L2,C2) ->
+           (isCircleMove(L1,C1,L2,C2),
             (
              (
                  isSquare(L1,C1,1),
-                  ((isRightEdge(L1,C1), S == 1) -> (L is 4, C is 10 - L1); %no sentido positivo, roda pela direita
-                   (isLeftEdge(L1,C1), S == -1) -> (L is 4, C is L1); %no sentido negativo, roda pela esquerda
-                   (S == -1) -> (L is L1, C is C1 - 1); %Coluna 5 no sentido negativo: Esquerda
-                   (S == 1) -> (L is L1, C is C1 + 1)), %Coluna 5 no sentido positivo: Direita
+                  ((isRightEdge(L1,C1), S == 1,L is 4, C is 10 - L1); %no sentido positivo, roda pela direita
+                   (isLeftEdge(L1,C1), S == -1, L is 4, C is L1); %no sentido negativo, roda pela esquerda
+                   (S == -1, L is L1, C is C1 - 1); %Coluna 5 no sentido negativo: Esquerda
+                   (S == 1, L is L1, C is C1 + 1)), %Coluna 5 no sentido positivo: Direita
                   isFree(L,C,B),
                   isValidMove(L,C,L2,C2,S,B)
              );
@@ -121,24 +121,27 @@ checkMovablePiece(L,C,P,B) :-
 canMove(L,C,B) :-
            (isSquare(L,C,1),
                 ((isLeftEdge(L,C), isFree(4,L,B));
+                 (isRightEdge(L,C),isFree(4,10-L,B));
+                 (L == 1, isFree(9,C,B));
                  isFree(L,C-1,B);
-                (isRightEdge(L,C),isFree(4,10-L,B));
                  isFree(L,C+1,B);
                  isFree(L-1,C,B);
-                 isAllowedMove(L,C,L+1,C,B)
+                 isFree(L+1,C,B)
                 ));
            (isSquare(L,C,5),
                 ((isLeftEdge(L,C),isFree(6,10-L,B));
-                  isFree(L,C-1,B);
                  (isRightEdge(L,C),isFree(6,L,B));
+                 (L == 9, isFree(1,C,B));
+                  isFree(L,C-1,B);
                   isFree(L,C+1,B);
                   isFree(L-1,C,B);
                   isFree(L+1,C,B)
                 ));
            (isSquare(L,C,2),
                 ((isUpperEdge(L,C),isFree(C,4,B));
-                  isFree(L-1,C,B);
                  (isLowerEdge(L,C),isFree(10-C,4,B));
+                 (C == 1, isFree(L,9,B));
+                  isFree(L-1,C,B);
                   isFree(L+1,C,B);
                   isFree(L,C-1,B);
                   isFree(L,C+1,B)
@@ -152,8 +155,9 @@ canMove(L,C,B) :-
                 ));
            (isSquare(L,C,4),
                 ((isUpperEdge(L,C),isFree(10-C,6,B));
-                  isFree(L-1,C,B);
                  (isLowerEdge(L,C),isFree(C,6,B));
+                 (C == 9, isFree(L,1,B));
+                  isFree(L-1,C,B);
                   isFree(L+1,C,B);
                   isFree(L,C-1,B);
                   isFree(L,C+1,B)
@@ -211,8 +215,7 @@ belongsToCircle(L,C,Circle) :-
            ).
 
 isCircleMove(L1,C1,L2,C2) :-
-           C1 =\= C2,
-           L1 =\= L2,
+           (C1 =\= C2,L1 =\= L2);(C1 == 10 - C2);(L1 == 10 - L2),
            isInBoard(L1,C1),
            isInBoard(L2,C2).
 
