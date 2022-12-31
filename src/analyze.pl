@@ -35,36 +35,84 @@ isAllowedMove(L1,C1,L2,C2,B) :-
 
 isValidMove(L1,C1,L2,C2,S,B) :-
            (L1 = L2, C1 = C2); %Quando o caminho j� foi todo verificado
-           isHorMove(L1,C1,L2,C2) ->
-             (
+           isHorMove(L1,C1,L2,C2),
+             ((S == 1),
                  (
-                     S == 1,
-                     ((C1 >= 9) -> C is 1; C is C1 + 1),
+                     isSquare(L1,C1,1),
+                     C is C1 + 1,
                      isFree(L1,C,B),
                      isValidMove(L1,C,L2,C2,S,B)
                  );
                  (
-                     S == -1,
-                     ((C1 =< 1) -> C is 9; C is C1 - 1),
+                     isSquare(L1,C1,5),
+                     C is C1 + 1,
+                     isFree(L1,C,B),
+                     isValidMove(L1,C,L2,C2,S,B)  
+                 );
+                 (
+                     ((C1 >= 9) -> C is 1; C is C1 + 1),
                      isFree(L1,C,B),
                      isValidMove(L1,C,L2,C2,S,B)
                  )
-             );
-           isVerMove(L1,C1,L2,C2) ->
-             (
+             );!;
+             ((S == -1),
                  (
-                     S == 1,
-                     ((L1 >= 9) -> L is 1; L is L1 + 1),
+                     isSquare(L1,C1,2),
+                     C is C1 + 1,
+                     isFree(L1,C,B),
+                     isValidMove(L1,C,L2,C2,S,B)
+                 );
+                 (
+                     isSquare(L1,C1,4),
+                     C is C1 - 1,
+                     isFree(L1,C,B),
+                     isValidMove(L1,C,L2,C2,S,B)  
+                 );
+                 (
+                     ((C1 =< 1) -> C is 9; C is C1 - 1),
+                     isFree(L1,C,B),
+                     isValidMove(L1,C1,L2,C2,S,B)
+                 )
+             );!;
+           isVerMove(L1,C1,L2,C2),
+             ((S == 1),
+                 (
+                     isSquare(L1,C1,2),
+                     L is L1 - 1,
                      isFree(L,C1,B),
                      isValidMove(L,C1,L2,C2,S,B)
                  );
                  (
-                     S == -1,
+                     isSquare(L1,C1,4),
+                     L is L1 + 1,
+                     isFree(L,C1,B),
+                     isValidMove(L,C1,L2,C2,S,B)  
+                 );
+                 (
+                     ((L1 >= 9) -> L is 1; L is L1 + 1),
+                     isFree(L,C1,B),
+                     isValidMove(L,C1,L2,C2,S,B)
+                 )
+             );!;
+             ((S == -1),
+                 (
+                     isSquare(L1,C1,2),
+                     L is L1 + 1,
+                     isFree(L,C1,B),
+                     isValidMove(L,C1,L2,C2,S,B)
+                 );
+                 (
+                     isSquare(L1,C1,4),
+                     L is L1 - 1,
+                     isFree(L,C1,B),
+                     isValidMove(L,C1,L2,C2,S,B)  
+                 );
+                 (
                      ((L1 =< 1) -> L is 9; L is L1 - 1),
                      isFree(L,C1,B),
                      isValidMove(L,C1,L2,C2,S,B)
                  )
-             );
+             );!;
            (isCircleMove(L1,C1,L2,C2),
             (
              (
@@ -215,7 +263,7 @@ belongsToCircle(L,C,Circle) :-
            ).
 
 isCircleMove(L1,C1,L2,C2) :-
-           (C1 =\= C2,L1 =\= L2);(C1 == 10 - C2);(L1 == 10 - L2),
+           ((C1 =\= C2,L1 =\= L2);(C1 == 10 - C2);(L1 == 10 - L2)),
            isInBoard(L1,C1),
            isInBoard(L2,C2).
 
