@@ -2,6 +2,7 @@
 :- consult(analyze).
 :- consult(utils).
 
+%Inicia o Jogo no Menu Principal
 play :-
            drawMainMenu,
            read(N),
@@ -9,6 +10,11 @@ play :-
            read(M),
            start(M).
 
+%Faz Setup do Tabuleiro e do Modo de Jogo
+% M -> Modo de Jogo que pode ser:
+% -- 1 -> Jogador vs Jogador
+% -- 2 -> Jogador vs PC
+% -- 3 -> PC vs PC
 start(M) :-
            M = 1,
            %BOARDS DE TESTE DE MOVIMENTO
@@ -82,6 +88,8 @@ pieceChoiceMessage(P) :- write('There isn\'t any pieces of yours there!\n'),
 
 tryMoveAgainMessage :- write('You can\'t place the piece there! Try choosing another piece...\n').  
 
+% Move a Peça que está em (L1,C1) para (L2,C2).
+% A alteração é feita no tabuleiro B e guardada no tabuleiro Result
 movePiece(L1,C1,L2,C2,B,Result) :-
            indexOf(L1,B,X), %X é a linha do tabuleiro da peca a mover
            indexOf(C1,X,Y), %Y é a peça a mover

@@ -1,5 +1,6 @@
 %Fun��es que fazem display do tabuleiro e de elementos complexos do jogo
 
+%Desenha o menu principal
 drawMainMenu :-
                         write('______________________________________________\n'),
                         write('|                                             |\n'),
@@ -17,6 +18,7 @@ drawMainMenu :-
                         write('|               4 - Exit Game                 |\n'),
                         write('|_____________________________________________|\n').
 
+%Desenha o menu de modo de jogo
 drawGameMenu(N) :-
         N=1,
         write('______________________________________________\n'),
@@ -34,6 +36,8 @@ drawGameMenu(N) :-
         write('|            3 - Computer vs Computer         |\n'),
         write('|_____________________________________________|\n').
 
+
+%Mostra o Tabuleiro B Linha a Linha
 showBoard(B,1) :- % B -> Lista que representa o Tabuleiro.
            write('             Column       \n'),
            write('       |1|2|3|4|5|6|7|8|9|\n'),
@@ -41,6 +45,7 @@ showBoard(B,1) :- % B -> Lista que representa o Tabuleiro.
            write('      1|'),
            showLine(L,1),
            showBoard(R,2).
+
 
 showBoard(B,9) :- % B -> Lista que representa o Tabuleiro.
            [L|_] = B,
@@ -60,6 +65,7 @@ showBoard(B,N) :- % B -> Lista que representa o Tabuleiro. N -> N� da Linha
            N1 is N + 1,
            showBoard(R,N1).
 
+%Mostra a Linha N do tabuleiro
 showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> N� da Linha
            (N>0, N<10),
            [S1|[S2|[S3|[S4|[S5|[S6|[S7|[S8|[S9|_]]]]]]]]] = L,

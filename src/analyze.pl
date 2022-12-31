@@ -1,20 +1,26 @@
 %Fun��es que analisam o tabuleiro para obter informa��o
+
+%Verifica se a casa (L,C) no tabuleiro B está livre
 isFree(L,C,B) :-
            isElementIn(L,C,B,'O').
 
+%Verifica se a casa (L,C) é uma casa onde não pode haver peças
 isInvalid(L,C,B) :-
            isElementIn(L,C,B,'\\');
            isElementIn(L,C,B,'\x2f\').
 
+%Verifica se a casa (L,C) está ocupada por uma peça qualquer no tabuleiro B
 isPiece(L,C,B) :-
            isPlayerPiece(L,C,B,1); isPlayerPiece(L,C,B,2).
 
+%Verifica se a casa (L,C) está ocupada por uma peça do jogador P no tabuleiro B
 isPlayerPiece(L,C,B,1) :-
            isElementIn(L,C,B,'A').
 
 isPlayerPiece(L,C,B,2) :-
            isElementIn(L,C,B,'B').
 
+%Verifica se a casa (L,C) é ocupada pelo elemento  no tabuleiro B
 isElementIn(L,C,B,E) :- % L -> linha, C -> coluna, B -> board, E -> elemento
            (L>0, L<10, C>0, C<10),
            indexOf(L,B,X), %X � a linha do tabuleiro que queremos verificar
@@ -30,9 +36,11 @@ indexOf(I,L,E) :- % I -> Index do Elemento, L -> Lista, E -> Valor do Elemento d
            [_|L1] = L,
            indexOf(I1,L1,E).
 
+%Verifica se o movimento (L1,C1)->(L2,C2) é permitido no tabuleiro B em algum dos dois sentidos
 isAllowedMove(L1,C1,L2,C2,B) :-
            isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B).
 
+%Verifica se o movimento (L1,C1)->(L2,C2) é permitido no tabuleiro B no sentido S
 isValidMove(L1,C1,L2,C2,S,B) :-
            (L1 = L2, C1 = C2); %Quando o caminho j� foi todo verificado
            isHorMove(L1,C1,L2,C2),
@@ -154,18 +162,22 @@ isValidMove(L1,C1,L2,C2,S,B) :-
             )
            ).
 
+%Verifica se o jogador P ainda não perdeu no Tabuleiro B
 checkBeforeTurn(P,B) :-
            isInPlay(1,4,P,B).
 
+%Verifica se na casa (L,C) do tabuleiro B há alguma peça do jogador P, e em caso afirmativo, verifica se ela se pode mover
 isInPlay(L,C,P,B) :-
            (C == 9, L == 9);
            (L < 9, C == 9, L1 is L + 1, checkMovablePiece(L,C,P,B), isInPlay(L1,1,P,B));
            (C < 9, C1 is C+1, checkMovablePiece(L,C,P,B), isInPlay(L,C1,P,B)).
 
+%Verifica se a casa (L,C) no tabuleiro B é uma peça que se pode mover, uma casa fora do tabuleiro ou uma casa vazia
 checkMovablePiece(L,C,P,B) :-
            %Ou não está no tabuleiro, ou é uma peça que se pode mover do jogador ou não é uma peça do jogador
                \+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));\+isPlayerPiece(L,C,B,P).
 
+%Verifica se uma peça hipotética na casa (L,C) do tabuleiro B consegue mover-se
 canMove(L,C,B) :-
            (isSquare(L,C,1),
                 ((isLeftEdge(L,C), isFree(4,L,B));
@@ -211,42 +223,50 @@ canMove(L,C,B) :-
                   isFree(L,C+1,B)
                 )).
 
+%Verifica se a casa (L,C) fica no Setor N do tabuleiro
 isSquare(L,C,N) :-
            (N = 1, L > 0, L < 4, C > 3, C < 7);
            (N = 2, L > 3, L < 7, C > 0, C < 4);
            (N = 3, L > 3, L < 7, C > 3, C < 7);
            (N = 4, L > 3, L < 7, C > 6, C < 10);
            (N = 5, L > 6, L < 10, C > 3, C < 7).
-           
+
+%Verifica se (L,C) é uma beirada esquerda que dá acesso a um círculo           
 isLeftEdge(L,C) :-
            isEdge(L,C), C = 4, (isSquare(L,C,1);isSquare(L,C,5)).
 
+%Verifica se (L,C) é uma beirada direita que dá acesso a um círculo
 isRightEdge(L,C) :-
            isEdge(L,C), C = 6, (isSquare(L,C,1);isSquare(L,C,5)).   
 
+%Verifica se (L,C) é uma beirada superior que dá acesso a um círculo
 isUpperEdge(L,C) :-
            isEdge(L,C), L = 4, (isSquare(L,C,2);isSquare(L,C,4)).
 
+%Verifica se (L,C) é uma beirada inferior que dá acesso a um círculo
 isLowerEdge(L,C) :-
            isEdge(L,C), L = 6, (isSquare(L,C,2);isSquare(L,C,4)).         
 
-
+%Verifica se (L,C) é uma beirada que dá acesso a um círculo
 isEdge(L,C) :- %identifica pontos de entrada em curvas
            ((L = 1 ; L = 2 ; L = 3; L = 7; L = 8; L = 9), (C = 4 ; C = 6));
            ((L = 4 ; L = 6), (C = 1 ; C = 2 ; C = 3; C = 7; C = 8; C = 9)).
 
+%Verifica se (L1,C1)->(L2,C2) pode ser um movimento vertical
 isVerMove(L1,C1,L2,C2) :-
            C1 = C2,
            L1 =\= L2,
            isInBoard(L1,C1),
            isInBoard(L2,C2).
 
+%Verifica se (L1,C1)->(L2,C2) pode ser um movimento horizontal
 isHorMove(L1,C1,L2,C2) :-
            L1 = L2,
            C1 =\= C2,
            isInBoard(L1,C1),
            isInBoard(L2,C2).
 
+%Verifica se (L,C) pertence ao circulo Circle
 belongsToCircle(L,C,Circle) :-
            isInBoard(L,C),
            (
@@ -262,11 +282,15 @@ belongsToCircle(L,C,Circle) :-
                (L = 3; C = 3; L = 7 ; C = 7)
            ).
 
+%Verifica se (L1,C1)->(L2,C2) pode ser um movimento circular
 isCircleMove(L1,C1,L2,C2) :-
-           ((C1 =\= C2,L1 =\= L2);(C1 == 10 - C2);(L1 == 10 - L2)),
+           belongsToCircle(L1,C1,Circle1),
+           belongsToCircle(L2,C2,Circle2),
+           Circle1 == Circle2,
            isInBoard(L1,C1),
            isInBoard(L2,C2).
 
+%Verifica se (L,C) está dentro do tabuleiro e é uma casa válida para peças
 isInBoard(L,C) :- %L -> Linha a verificar, C -> Coluna a verificar
            (L>0, L < 4, C > 3, C < 7);
            (L>3, L < 7, C > 0, C < 10);
