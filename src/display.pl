@@ -1,4 +1,4 @@
-%Funções que fazem display do tabuleiro e de elementos complexos do jogo
+%Funï¿½ï¿½es que fazem display do tabuleiro e de elementos complexos do jogo
 
 drawMainMenu :-
                         write('______________________________________________\n'),
@@ -54,13 +54,13 @@ showBoard(B,5) :- % B -> Lista que representa o Tabuleiro.
            write(' Line '),write('5|'),showLine(L,5),
            showBoard(R,6).
 
-showBoard(B,N) :- % B -> Lista que representa o Tabuleiro. N -> Nº da Linha
+showBoard(B,N) :- % B -> Lista que representa o Tabuleiro. N -> Nï¿½ da Linha
            [L|R] = B,
            write('      '),write(N), write('|'),showLine(L,N),
            N1 is N + 1,
            showBoard(R,N1).
 
-showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nº da Linha
+showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> Nï¿½ da Linha
            (N>0, N<10),
            [S1|[S2|[S3|[S4|[S5|[S6|[S7|[S8|[S9|_]]]]]]]]] = L,
            write(S1),write('|'),write(S2),write('|'),write(S3),write('|'),write(S4),write('|'),write(S5),write('|'),write(S6),write('|'),write(S7),write('|'),write(S8),write('|'),write(S9),write('|\n').

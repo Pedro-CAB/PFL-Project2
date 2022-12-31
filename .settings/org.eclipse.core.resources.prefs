@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/analyze.pl=UTF-8
+encoding//src/display.pl=UTF-8
+encoding//src/main.pl=UTF-8
 encoding/<project>=UTF-8

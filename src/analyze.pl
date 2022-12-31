@@ -1,4 +1,4 @@
-%Funções que analisam o tabuleiro para obter informação
+%Funï¿½ï¿½es que analisam o tabuleiro para obter informaï¿½ï¿½o
 isFree(L,C,B) :-
            isElementIn(L,C,B,'O').
 
@@ -17,7 +17,7 @@ isPlayerPiece(L,C,B,2) :-
 
 isElementIn(L,C,B,E) :- % L -> linha, C -> coluna, B -> board, E -> elemento
            (L>0, L<10, C>0, C<10),
-           indexOf(L,B,X), %X é a linha do tabuleiro que queremos verificar
+           indexOf(L,B,X), %X ï¿½ a linha do tabuleiro que queremos verificar
            indexOf(C,X,Y),
            E = Y.
 
@@ -34,7 +34,7 @@ isAllowedMove(L1,C1,L2,C2,B) :-
            isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B).
 
 isValidMove(L1,C1,L2,C2,S,B) :-
-           (L1 = L2, C1 = C2); %Quando o caminho já foi todo verificado
+           (L1 = L2, C1 = C2); %Quando o caminho jï¿½ foi todo verificado
            isHorMove(L1,C1,L2,C2) ->
              (
                  (
@@ -109,16 +109,14 @@ isValidMove(L1,C1,L2,C2,S,B) :-
 checkBeforeTurn(P,B) :-
            isInPlay(1,4,P,B).
 
-isInPlay(9,7,_,_) :-
-           true.
-
 isInPlay(L,C,P,B) :-
-           (C == 9, checkMovablePiece(L,C,P,B), L1 is L + 1, isInPlay(L1,1,P,B));
-           (C < 9, checkMovablePiece(L,C,P,B), C1 is C + 1, isInPlay(L,C1,P,B)).
+           (C == 9, L == 9);
+           (L < 9, C == 9, L1 is L + 1, checkMovablePiece(L,C,P,B), isInPlay(L1,1,P,B));
+           (C < 9, C1 is C+1, checkMovablePiece(L,C,P,B), isInPlay(L,C1,P,B)).
 
 checkMovablePiece(L,C,P,B) :-
-           %Ou não está no tabuleiro, ou é uma peça que se pode mover do jogador ou não é uma peça do jogador
-               \+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));\+isPlayerPiece(L,C,B,P).                        
+           %Ou nÃ£o estÃ¡ no tabuleiro, ou Ã© uma peÃ§a que se pode mover do jogador ou nÃ£o Ã© uma peÃ§a do jogador
+               \+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));\+isPlayerPiece(L,C,B,P).
 
 canMove(L,C,B) :-
            (isSquare(L,C,1),
@@ -141,6 +139,13 @@ canMove(L,C,B) :-
                 ((isUpperEdge(L,C),isFree(C,4,B));
                   isFree(L-1,C,B);
                  (isLowerEdge(L,C),isFree(10-C,4,B));
+                  isFree(L+1,C,B);
+                  isFree(L,C-1,B);
+                  isFree(L,C+1,B)
+                ));
+           (isSquare(L,C,3),
+                (
+                  isFree(L-1,C,B);
                   isFree(L+1,C,B);
                   isFree(L,C-1,B);
                   isFree(L,C+1,B)
