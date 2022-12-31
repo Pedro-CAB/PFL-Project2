@@ -13,14 +13,14 @@ start(M) :-
            M = 1,
            %BOARDS DE TESTE DE MOVIMENTO
            /*Board = [ ['\x2f\','\x2f\','\x2f\','O','A','A','\\','\\','\\'],
-                     ['\x2f\','\x2f\','\x2f\','O','O','O','\\','\\','\\'],
-                     ['\x2f\','\x2f\','\x2f\','O','O','O','\\','\\','\\'],
+                     ['\x2f\','\x2f\','\x2f\','A','B','A','\\','\\','\\'],
+                     ['\x2f\','\x2f\','\x2f\','A','A','O','\\','\\','\\'],
                      ['O','O','O','O','O','O','O','O','O'],
                      ['O','O','O','O','O','O','O','O','O'],
                      ['O','O','O','B','O','B','O','O','O'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
-                     ['\\','\\','\\','O','O','O','\x2f\','\x2f\','\x2f\']],*/
+                     ['\\','\\','\\','O','O','B','\x2f\','\x2f\','\x2f\']],*/
            %BOARD CORRETO ABAIXO
            Board = [ ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
@@ -33,18 +33,29 @@ start(M) :-
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']],
            game(M,Board).    
 
-game(M,B) :-
-           M = 1,
-           turn(1,B,N),
-           %not(win(B)), win/lose shows board and result (who won)
-           turn(2,N,R),
-           %not(win(B)),
-           game(M,R).
+game(1,B) :-
+           turn(1,B,_).
 
-turn(P,B,N) :-
-           write('Player '), write(P), write(' turn...\n'),
-           showBoard(B,1),
-           moveChoice(B,P,N).
+
+turn(1,B,N) :-
+           (announceTurn(1),
+            checkBeforeTurn(1,B),
+            showBoard(B,1),
+            moveChoice(B,1,N),
+            turn(2,N,_));
+           (showBoard(B,1), win(2)).
+
+turn(2,B,N) :-
+           (announceTurn(2),
+            checkBeforeTurn(2,B),
+            showBoard(B,1),
+           moveChoice(B,2,N),
+           turn(1,N,_));
+           (showBoard(B,1), win(1)).
+
+announceTurn(P) :- write('Player '),write(P), write(' turn...\n').
+
+win(P) :- write('Player '), write(P), write(' wins!\n').
                 
 moveChoice(B,P,N) :-
            write('Which piece do you want to move?\n'),
@@ -72,14 +83,13 @@ pieceChoiceMessage(P) :- write('There isn\'t any pieces of yours there!\n'),
 tryMoveAgainMessage :- write('You can\'t place the piece there! Try choosing another piece...\n').  
 
 movePiece(L1,C1,L2,C2,B,Result) :-
-           indexOf(L1,B,X), %X é a linha do tabuleiro da peca a mover
-           indexOf(C1,X,Y), %Y é a peça a mover
-           indexOf(L2,B,W), %W é a linha do tabuleiro da peca destino
-           indexOf(C2,W,Z), %Z é a peça destino
+           indexOf(L1,B,X), %X Ã© a linha do tabuleiro da peca a mover
+           indexOf(C1,X,Y), %Y Ã© a peÃ§a a mover
+           indexOf(L2,B,W), %W Ã© a linha do tabuleiro da peca destino
+           indexOf(C2,W,Z), %Z Ã© a peÃ§a destino
            L3 is L1-1,
            C3 is C1-1,
            replace(B, L3 , C3 , Z , B1),
            L4 is L2-1,
            C4 is C2-1,
            replace(B1, L4 , C4 , Y , Result).
-

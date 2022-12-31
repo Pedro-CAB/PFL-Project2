@@ -1,4 +1,4 @@
-%Funções que analisam o tabuleiro para obter informação
+%Funï¿½ï¿½es que analisam o tabuleiro para obter informaï¿½ï¿½o
 isFree(L,C,B) :-
            isElementIn(L,C,B,'O').
 
@@ -17,7 +17,7 @@ isPlayerPiece(L,C,B,2) :-
 
 isElementIn(L,C,B,E) :- % L -> linha, C -> coluna, B -> board, E -> elemento
            (L>0, L<10, C>0, C<10),
-           indexOf(L,B,X), %X é a linha do tabuleiro que queremos verificar
+           indexOf(L,B,X), %X ï¿½ a linha do tabuleiro que queremos verificar
            indexOf(C,X,Y),
            E = Y.
 
@@ -31,27 +31,23 @@ indexOf(I,L,E) :- % I -> Index do Elemento, L -> Lista, E -> Valor do Elemento d
            indexOf(I1,L1,E).
 
 isAllowedMove(L1,C1,L2,C2,B) :-
-           (write('\n\nCalculating Positive Path...\n'), isValidMove(L1,C1,L2,C2,1,B));
-           (write('\n\nCalculating Negative Path...\n'), isValidMove(L1,C1,L2,C2,-1,B)).
+           isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B).
 
 isValidMove(L1,C1,L2,C2,S,B) :-
-           write('Called for position ( '), write(L1), write(','),write(C1),write(')\n'),
-           (L1 = L2, C1 = C2); %Quando o caminho já foi todo verificado
+           (L1 = L2, C1 = C2); %Quando o caminho jï¿½ foi todo verificado
            isHorMove(L1,C1,L2,C2) ->
              (
                  (
                      S == 1,
                      ((C1 >= 9) -> C is 1; C is C1 + 1),
                      isFree(L1,C,B),
-                     isValidMove(L1,C,L2,C2,S,B),
-                     write('Stuck In Horizontal Option 1\n')
+                     isValidMove(L1,C,L2,C2,S,B)
                  );
                  (
                      S == -1,
                      ((C1 =< 1) -> C is 9; C is C1 - 1),
                      isFree(L1,C,B),
-                     isValidMove(L1,C,L2,C2,S,B),
-                     write('Stuck In Horizontal Option 2\n')
+                     isValidMove(L1,C,L2,C2,S,B)
                  )
              );
            isVerMove(L1,C1,L2,C2) ->
@@ -60,66 +56,108 @@ isValidMove(L1,C1,L2,C2,S,B) :-
                      S == 1,
                      ((L1 >= 9) -> L is 1; L is L1 + 1),
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B),
-                     write('Stuck In Vertical Option 1\n')
+                     isValidMove(L,C1,L2,C2,S,B)
                  );
                  (
                      S == -1,
                      ((L1 =< 1) -> L is 9; L is L1 - 1),
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B),
-                     write('Stuck In Vertical Option 2\n')
+                     isValidMove(L,C1,L2,C2,S,B)
                  )
              );
-           (isCircleMove(L1,C1,L2,C2), write('Stuck In Circle Options\n') ->
+           (isCircleMove(L1,C1,L2,C2) ->
             (
              (
-                 isSquare(L1,C1,1), write('Entered Sector 1\n'),
-                  write('Starting Circle Move in Sector 1\n'),
+                 isSquare(L1,C1,1),
                   ((isRightEdge(L1,C1), S == 1) -> (L is 4, C is 10 - L1); %no sentido positivo, roda pela direita
                    (isLeftEdge(L1,C1), S == -1) -> (L is 4, C is L1); %no sentido negativo, roda pela esquerda
                    (S == -1) -> (L is L1, C is C1 - 1); %Coluna 5 no sentido negativo: Esquerda
                    (S == 1) -> (L is L1, C is C1 + 1)), %Coluna 5 no sentido positivo: Direita
                   isFree(L,C,B),
-                  write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,S,B)
              );
             (
-                 isSquare(L1,C1,5), write('Entered Sector 5\n'),
-                  write('Starting Circle Move in Sector 5\n'),
+                 isSquare(L1,C1,5),
                   ((isRightEdge(L1,C1), S == -1) -> (L is 6, C is L1);
                    (isLeftEdge(L1,C1), S == 1) -> (L is 6, C is 10 - L1);
                    (S == -1) -> (L is L1, C is C1 + 1);
                    (S == 1) -> (L is L1, C is C1 - 1)),
                   isFree(L,C,B),
-                  write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,S,B)
              );
              (
-                 (isSquare(L1,C1,2)),write('Entered Sector 2\n'),
-                  write('Starting Circle Move in Sector 2 (down)\n'),
+                 (isSquare(L1,C1,2)),
                   ((isLowerEdge(L1,C1), S == -1) -> (L is 10 - C1, C is 4);
                    (isUpperEdge(L1,C1), S == 1) -> (L is C1, C is 4);
                    (S == -1) -> (L is L1 + 1, C is C1);
                    (S == 1) -> (L is L1 -1, C is C1)),
                   isFree(L,C,B),
-                  write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,S,B)
              );
              (
-                 (isSquare(L1,C1,4)),write('Entered Sector 4\n'),
-                  write('Starting Circle Move in Sector 4 (down)\n'),
+                 (isSquare(L1,C1,4)),
                   ((isLowerEdge(L1,C1), S == 1) -> (L is C1, C is 6);
                    (isUpperEdge(L1,C1), S == -1) -> (L is 10 - C1, C is 6);
                    (S == 1) -> (L is L1 + 1, C is C1);
                    (S == -1) -> (L is L1 - 1, C is C1)),
                   isFree(L,C,B),
-                  write('Moving to position ( '), write(L), write(','),write(C),write(')\n'),
                   isValidMove(L,C,L2,C2,S,B)
              )
             )
            ).
-           
+
+checkBeforeTurn(P,B) :-
+           isInPlay(1,4,P,B).
+
+isInPlay(L,C,P,B) :-
+           (C == 9, L == 9);
+           (L < 9, C == 9, L1 is L + 1, checkMovablePiece(L,C,P,B), isInPlay(L1,1,P,B));
+           (C < 9, C1 is C+1, checkMovablePiece(L,C,P,B), isInPlay(L,C1,P,B)).
+
+checkMovablePiece(L,C,P,B) :-
+           %Ou nÃ£o estÃ¡ no tabuleiro, ou Ã© uma peÃ§a que se pode mover do jogador ou nÃ£o Ã© uma peÃ§a do jogador
+               \+isInBoard(L,C);(isPlayerPiece(L,C,B,P),canMove(L,C,B));\+isPlayerPiece(L,C,B,P).
+
+canMove(L,C,B) :-
+           (isSquare(L,C,1),
+                ((isLeftEdge(L,C), isFree(4,L,B));
+                 isFree(L,C-1,B);
+                (isRightEdge(L,C),isFree(4,10-L,B));
+                 isFree(L,C+1,B);
+                 isFree(L-1,C,B);
+                 isAllowedMove(L,C,L+1,C,B)
+                ));
+           (isSquare(L,C,5),
+                ((isLeftEdge(L,C),isFree(6,10-L,B));
+                  isFree(L,C-1,B);
+                 (isRightEdge(L,C),isFree(6,L,B));
+                  isFree(L,C+1,B);
+                  isFree(L-1,C,B);
+                  isFree(L+1,C,B)
+                ));
+           (isSquare(L,C,2),
+                ((isUpperEdge(L,C),isFree(C,4,B));
+                  isFree(L-1,C,B);
+                 (isLowerEdge(L,C),isFree(10-C,4,B));
+                  isFree(L+1,C,B);
+                  isFree(L,C-1,B);
+                  isFree(L,C+1,B)
+                ));
+           (isSquare(L,C,3),
+                (
+                  isFree(L-1,C,B);
+                  isFree(L+1,C,B);
+                  isFree(L,C-1,B);
+                  isFree(L,C+1,B)
+                ));
+           (isSquare(L,C,4),
+                ((isUpperEdge(L,C),isFree(10-C,6,B));
+                  isFree(L-1,C,B);
+                 (isLowerEdge(L,C),isFree(C,6,B));
+                  isFree(L+1,C,B);
+                  isFree(L,C-1,B);
+                  isFree(L,C+1,B)
+                )).
 
 isSquare(L,C,N) :-
            (N = 1, L > 0, L < 4, C > 3, C < 7);
