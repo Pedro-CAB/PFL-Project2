@@ -43,17 +43,15 @@ turn(1,B,N) :-
             showBoard(B,1),
             moveChoice(B,1,N),
             turn(2,N,_));
-           (win(2),
-            showBoard(B,1)).
+           (showBoard(B,1), win(2)).
 
 turn(2,B,N) :-
            (announceTurn(2),
             checkBeforeTurn(2,B),
-            showBoard(B,2),
+            showBoard(B,1),
            moveChoice(B,2,N),
            turn(1,N,_));
-           (win(1),
-            showBoard(B,1)).
+           (showBoard(B,1), win(1)).
 
 announceTurn(P) :- write('Player '),write(P), write(' turn...\n').
 
