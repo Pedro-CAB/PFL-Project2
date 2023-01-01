@@ -40,127 +40,152 @@ indexOf(I,L,E) :- % I -> Index do Elemento, L -> Lista, E -> Valor do Elemento d
 isAllowedMove(L1,C1,L2,C2,B) :-
            isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B).
 
-%Verifica se o movimento (L1,C1)->(L2,C2) é permitido no tabuleiro B no sentido S
-isValidMove(L1,C1,L2,C2,S,B) :-
-           (L1 = L2, C1 = C2); %Quando o caminho j� foi todo verificado
+isValidHorMove(L1,C1,L2,C2,1,B):-
            isHorMove(L1,C1,L2,C2),
-             ((S == 1),
-                 (
+                 ((
                      isSquare(L1,C1,1),
                      C is C1 + 1,
                      isFree(L1,C,B),
-                     isValidMove(L1,C,L2,C2,S,B)
+                     isValidMove(L1,C,L2,C2,1,B)
                  );
                  (
                      isSquare(L1,C1,5),
                      C is C1 + 1,
                      isFree(L1,C,B),
-                     isValidMove(L1,C,L2,C2,S,B)  
+                     isValidMove(L1,C,L2,C2,1,B)  
                  );
                  (
                      ((C1 >= 9) -> C is 1; C is C1 + 1),
                      isFree(L1,C,B),
-                     isValidMove(L1,C,L2,C2,S,B)
-                 )
-             );!;
-             ((S == -1),
-                 (
+                     isValidMove(L1,C,L2,C2,1,B)
+                 )).
+
+isValidHorMove(L1,C1,L2,C2,-1,B):-
+           isHorMove(L1,C1,L2,C2),
+                 ((
                      isSquare(L1,C1,2),
                      C is C1 + 1,
                      isFree(L1,C,B),
-                     isValidMove(L1,C,L2,C2,S,B)
+                     isValidMove(L1,C,L2,C2,-1,B)
                  );
                  (
                      isSquare(L1,C1,4),
                      C is C1 - 1,
                      isFree(L1,C,B),
-                     isValidMove(L1,C,L2,C2,S,B)  
+                     isValidMove(L1,C,L2,C2,-1,B)  
                  );
                  (
                      ((C1 =< 1) -> C is 9; C is C1 - 1),
                      isFree(L1,C,B),
-                     isValidMove(L1,C1,L2,C2,S,B)
-                 )
-             );!;
+                     isValidMove(L1,C,L2,C2,-1,B)
+                 )).
+           
+
+isValidVerMove(L1,C1,L2,C2,1,B):-
            isVerMove(L1,C1,L2,C2),
-             ((S == 1),
-                 (
+                 ((
                      isSquare(L1,C1,2),
                      L is L1 - 1,
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B)
+                     isValidMove(L,C1,L2,C2,1,B)
                  );
                  (
                      isSquare(L1,C1,4),
                      L is L1 + 1,
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B)  
+                     isValidMove(L,C1,L2,C2,1,B)  
                  );
                  (
                      ((L1 >= 9) -> L is 1; L is L1 + 1),
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B)
-                 )
-             );!;
-             ((S == -1),
-                 (
+                     isValidMove(L,C1,L2,C2,1,B)
+                 )).
+
+isValidVerMove(L1,C1,L2,C2,-1,B):-
+           (isVerMove(L1,C1,L2,C2),
+                 ((
                      isSquare(L1,C1,2),
                      L is L1 + 1,
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B)
+                     isValidMove(L,C1,L2,C2,-1,B)
                  );
                  (
                      isSquare(L1,C1,4),
                      L is L1 - 1,
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B)  
+                     isValidMove(L,C1,L2,C2,-1,B)  
                  );
                  (
                      ((L1 =< 1) -> L is 9; L is L1 - 1),
                      isFree(L,C1,B),
-                     isValidMove(L,C1,L2,C2,S,B)
-                 )
-             );!;
-           (isCircleMove(L1,C1,L2,C2),
+                     isValidMove(L,C1,L2,C2,-1,B)
+                 ))
+             ).
+
+isValidCircleMove(L1,C1,L2,C2,1,B):-
+           isCircleMove(L1,C1,L2,C2),
             (
              (
                  isSquare(L1,C1,1),
-                  ((isRightEdge(L1,C1), S == 1,L is 4, C is 10 - L1); %no sentido positivo, roda pela direita
-                   (isLeftEdge(L1,C1), S == -1, L is 4, C is L1); %no sentido negativo, roda pela esquerda
-                   (S == -1, L is L1, C is C1 - 1); %Coluna 5 no sentido negativo: Esquerda
-                   (S == 1, L is L1, C is C1 + 1)), %Coluna 5 no sentido positivo: Direita
+                  (isRightEdge(L1,C1) ->  (L is 4, C is 10 - L1);(L is L1, C is C1 + 1)),
                   isFree(L,C,B),
-                  isValidMove(L,C,L2,C2,S,B)
+                  isValidMove(L,C,L2,C2,1,B)
              );
             (
                  isSquare(L1,C1,5),
-                  ((isRightEdge(L1,C1), S == -1) -> (L is 6, C is L1);
-                   (isLeftEdge(L1,C1), S == 1) -> (L is 6, C is 10 - L1);
-                   (S == -1) -> (L is L1, C is C1 + 1);
-                   (S == 1) -> (L is L1, C is C1 - 1)),
+                  ((isLeftEdge(L1,C1)) -> (L is 6, C is 10 - L1);(L is L1, C is C1 - 1)),
                   isFree(L,C,B),
-                  isValidMove(L,C,L2,C2,S,B)
+                  isValidMove(L,C,L2,C2,1,B)
              );
              (
                  (isSquare(L1,C1,2)),
-                  ((isLowerEdge(L1,C1), S == -1) -> (L is 10 - C1, C is 4);
-                   (isUpperEdge(L1,C1), S == 1) -> (L is C1, C is 4);
-                   (S == -1) -> (L is L1 + 1, C is C1);
-                   (S == 1) -> (L is L1 -1, C is C1)),
+                  ((isUpperEdge(L1,C1)) -> (L is C1, C is 4); (L is L1 -1, C is C1)),
                   isFree(L,C,B),
-                  isValidMove(L,C,L2,C2,S,B)
+                  isValidMove(L,C,L2,C2,1,B)
              );
              (
                  (isSquare(L1,C1,4)),
-                  ((isLowerEdge(L1,C1), S == 1) -> (L is C1, C is 6);
-                   (isUpperEdge(L1,C1), S == -1) -> (L is 10 - C1, C is 6);
-                   (S == 1) -> (L is L1 + 1, C is C1);
-                   (S == -1) -> (L is L1 - 1, C is C1)),
+                  ((isLowerEdge(L1,C1)) -> (L is C1, C is 6);(L is L1 + 1, C is C1)),
                   isFree(L,C,B),
-                  isValidMove(L,C,L2,C2,S,B)
+                  isValidMove(L,C,L2,C2,1,B)
+            )).
+
+isValidCircleMove(L1,C1,L2,C2,-1,B) :-
+           isCircleMove(L1,C1,L2,C2),
+             (
+                 isSquare(L1,C1,1),
+                   (isLeftEdge(L1,C1)-> (L is 4, C is L1); %no sentido negativo, roda pela esquerda
+                   (L is L1, C is C1 - 1); %Coluna 5 no sentido negativo: Esquerda
+                  isFree(L,C,B),
+                  isValidMove(L,C,L2,C2,-1,B)
+             );
+            (
+                 isSquare(L1,C1,5),
+                  (((isRightEdge(L1,C1)) -> (L is 6, C is L1);(L is L1, C is C1 + 1)),
+                  isFree(L,C,B),
+                  isValidMove(L,C,L2,C2,-1,B)
+             );
+             (
+                 isSquare(L1,C1,2),
+                  ((isLowerEdge(L1,C1)) -> (L is 10 - C1, C is 4);(L is L1 + 1, C is C1)),
+                  isFree(L,C,B),
+                  isValidMove(L,C,L2,C2,-1,B)
+             );
+             (
+                 (isSquare(L1,C1,4)),
+                  ((isUpperEdge(L1,C1)) -> (L is 10 - C1, C is 6);(L is L1 - 1, C is C1)),
+                  isFree(L,C,B),
+                  isValidMove(L,C,L2,C2,-1,B)
              )
             )
            ).
+
+%Verifica se o movimento (L1,C1)->(L2,C2) é permitido no tabuleiro B no sentido S
+isValidMove(L1,C1,L2,C2,S,B) :-
+           (L1 = L2, C1 = C2); %Quando o caminho j� foi todo verificado
+           isValidHorMove(L1,C1,L2,C2,S,B);
+           isValidVerMove(L1,C1,L2,C2,S,B);
+           isValidCircleMove(L1,C1,L2,C2,S,B).
 
 %Verifica se o jogador P ainda não perdeu no Tabuleiro B
 checkBeforeTurn(P,B) :-
