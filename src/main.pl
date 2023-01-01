@@ -5,11 +5,13 @@
 %Inicia o Jogo no Menu Principal
 play :-
            drawMainMenu,
-           read(N),
-           drawGameMenu(N),
-           read(M),
+           read(N), 
+           (N=1 -> drawGameMenu,read(M),
            initial_state(M, B),
-           turn(1,B,_).
+           turn(1,B,_);
+            N=2 -> drawRules, read(1), play;
+            N=3 -> drawAboutUs, read(1), play
+            ).
 
 %Faz Setup do Tabuleiro e do Modo de Jogo
 % M -> Modo de Jogo que pode ser:
@@ -40,19 +42,19 @@ initial_state(1,B) :-
 
 
 turn(1,B,N) :-
-           (announceTurn(1),
-            checkBeforeTurn(1,B),
+           (checkBeforeTurn(1,B),
             display_game(B),
+            announceTurn(1),
             moveChoice(B,1,N),
             turn(2,N,_));
            (display_game(B), win(2)).
 
 turn(2,B,N) :-
-           (announceTurn(2),
-            checkBeforeTurn(2,B),
+           (checkBeforeTurn(2,B),
             display_game(B),
-           moveChoice(B,2,N),
-           turn(1,N,_));
+            announceTurn(2),
+            moveChoice(B,2,N),
+            turn(1,N,_));
            (display_game(B), win(1)).
 
 announceTurn(P) :- write('Player '),write(P), write(' turn...\n').
@@ -72,7 +74,7 @@ moveChoice(B,P,N) :-
                 read(L2),
                 write('Insert the column of the position:\n'),
                 read(C2),
-                (\+isAllowedMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage, display_game(B), moveChoice(B,P,N), !;
+                (\+isAllowedMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage(P), display_game(B), moveChoice(B,P,N), !;
                         isAllowedMove(L1,C1,L2,C2,B),
                         %write('Should move the piece from '), write(L1),write('-'),write(C1), write(' to '),write(L2),write('-'),write(C2), write('\n')
                         movePiece(L1,C1,L2,C2,B,N)
@@ -82,7 +84,7 @@ moveChoice(B,P,N) :-
 pieceChoiceMessage(P) :- write('There isn\'t any pieces of yours there!\n'),
                 write('Try again, player '), write(P), write('!\n').
 
-tryMoveAgainMessage :- write('You can\'t place the piece there! Try choosing another piece...\n').  
+tryMoveAgainMessage(P) :- write('You can\'t place the piece there! Try choosing another piece, player '), write(P), write('...\n').  
 
 % Move a Peça que está em (L1,C1) para (L2,C2).
 % A alteração é feita no tabuleiro B e guardada no tabuleiro Result

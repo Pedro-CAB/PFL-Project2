@@ -1,4 +1,4 @@
-%Funcoes que fazem display do tabuleiro e de elementos complexos do jogo
+%Funcoes que fazem display dos menus, tabuleiro e elementos complexos do jogo
 
 %Desenha o menu principal
 drawMainMenu :-
@@ -19,8 +19,7 @@ drawMainMenu :-
                         write('|_____________________________________________|\n').
 
 %Desenha o menu de modo de jogo
-drawGameMenu(N) :-
-        N=1,
+drawGameMenu :-
         write('______________________________________________\n'),
         write('|       _____                                 |\n'),
         write('|      / ____|                                |\n'),
@@ -34,6 +33,38 @@ drawGameMenu(N) :-
         write('|            1 - Player vs Player             |\n'),
         write('|            2 - Player vs Computer           |\n'),
         write('|            3 - Computer vs Computer         |\n'),
+        write('|_____________________________________________|\n').
+
+drawRules :-
+        write('______________________________________________\n'),
+        write('|                                             |\n'),
+        write('|                   Rules                     |\n'),
+        write('|      The goal is to trap your opponent!     |\n'),
+        write('|  You only need to make one of their pieces  |\n'),
+        write('|  stuck. Choose a piece of yours to move,    |\n'),
+        write('|  you can move it as far as you want in the  |\n'),   
+        write('|  same line, without going through or into   |\n'),
+        write('|  the same spot as other piece. You can also |\n'),   
+        write('|  go over the edge of the board and travel   |\n'),
+        write('|  from the opposite side on the same line.   |\n'),
+        write('|                 Have fun!                   |\n'),
+        write('|             press 1. to go back             |\n'),
+        write('|_____________________________________________|\n').
+
+drawAboutUs :-
+        write('______________________________________________\n'),
+        write('|                                             |\n'),
+        write('|                  About us                   |\n'),
+        write('|                                             |\n'),
+        write('|                                             |\n'),
+        write('|                 FEUP - PFL                  |\n'),
+        write('|                   Prolog                    |\n'),
+        write('|                                             |\n'),   
+        write('|        Mariana Teixeira > up201905705       |\n'),
+        write('|           Pedro Gomes > up202006086         |\n'),
+        write('|                                             |\n'),   
+        write('|                                             |\n'),
+        write('|             press 1. to go back             |\n'),
         write('|_____________________________________________|\n').
 
 

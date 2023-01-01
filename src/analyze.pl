@@ -36,9 +36,14 @@ indexOf(I,L,E) :- % I -> Index do Elemento, L -> Lista, E -> Valor do Elemento d
            [_|L1] = L,
            indexOf(I1,L1,E).
 
+%verifica se a jogada não é passiva, isto e, o jogador tem que mexer a peca
+isNotPassive(L1,C1,L2,C2) :-
+           (L1=L2,C1=C2), !, fail; true.
+
 %Verifica se o movimento (L1,C1)->(L2,C2) é permitido no tabuleiro B em algum dos dois sentidos
 isAllowedMove(L1,C1,L2,C2,B) :-
-           isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B).
+           isNotPassive(L1,C1,L2,C2),
+           (isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B)).
 
 isValidHorMove(L1,C1,L2,C2,1,B):-
            isHorMove(L1,C1,L2,C2),
@@ -182,7 +187,7 @@ isValidCircleMove(L1,C1,L2,C2,-1,B) :-
 
 %Verifica se o movimento (L1,C1)->(L2,C2) é permitido no tabuleiro B no sentido S
 isValidMove(L1,C1,L2,C2,S,B) :-
-           (L1 = L2, C1 = C2); %Quando o caminho j� foi todo verificado
+           (L1 = L2, C1 = C2); %Quando o caminho ja foi todo verificado
            isValidHorMove(L1,C1,L2,C2,S,B);
            isValidVerMove(L1,C1,L2,C2,S,B);
            isValidCircleMove(L1,C1,L2,C2,S,B).
