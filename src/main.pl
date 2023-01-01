@@ -8,17 +8,17 @@ play :-
            read(N),
            drawGameMenu(N),
            read(M),
-           start(M).
+           initial_state(M, B),
+           turn(1,B,_).
 
 %Faz Setup do Tabuleiro e do Modo de Jogo
 % M -> Modo de Jogo que pode ser:
 % -- 1 -> Jogador vs Jogador
 % -- 2 -> Jogador vs PC
 % -- 3 -> PC vs PC
-start(M) :-
-           M = 1,
+initial_state(1,B) :-
            %BOARDS DE TESTE DE MOVIMENTO
-           Board = [ ['\x2f\','\x2f\','\x2f\','O','O','A','\\','\\','\\'],
+           /*Board = [ ['\x2f\','\x2f\','\x2f\','O','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','O','\\','\\','\\'],
                      ['A','O','O','A','O','A','O','O','O'],
@@ -26,9 +26,9 @@ start(M) :-
                      ['O','O','O','B','O','B','O','O','O'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
-                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']],
+                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']],*/
            %BOARD CORRETO ABAIXO
-           /*Board = [ ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
+           B = [ ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['\x2f\','\x2f\','\x2f\','A','O','A','\\','\\','\\'],
                      ['O','O','O','A','O','A','O','O','O'],
@@ -36,28 +36,24 @@ start(M) :-
                      ['O','O','O','B','O','B','O','O','O'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
                      ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\'],
-                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']],*/
-           game(M,Board).    
-
-game(1,B) :-
-           turn(1,B,_).
+                     ['\\','\\','\\','B','O','B','\x2f\','\x2f\','\x2f\']].
 
 
 turn(1,B,N) :-
            (announceTurn(1),
             checkBeforeTurn(1,B),
-            showBoard(B,1),
+            display_game(B),
             moveChoice(B,1,N),
             turn(2,N,_));
-           (showBoard(B,1), win(2)).
+           (display_game(B), win(2)).
 
 turn(2,B,N) :-
            (announceTurn(2),
             checkBeforeTurn(2,B),
-            showBoard(B,1),
+            display_game(B),
            moveChoice(B,2,N),
            turn(1,N,_));
-           (showBoard(B,1), win(1)).
+           (display_game(B), win(1)).
 
 announceTurn(P) :- write('Player '),write(P), write(' turn...\n').
 
@@ -69,14 +65,14 @@ moveChoice(B,P,N) :-
            read(L1),
            write('Insert the column of the piece:\n'),
            read(C1),
-           (\+isPlayerPiece(L1,C1,B,P) -> pieceChoiceMessage(P), showBoard(B,1), moveChoice(B,P,N);
+           (\+isPlayerPiece(L1,C1,B,P) -> pieceChoiceMessage(P), display_game(B), moveChoice(B,P,N);
                 isPlayerPiece(L1,C1,B,P),
                 write('Where do you want to move it to?\n'),
                 write('Insert the line of the position:\n'),
                 read(L2),
                 write('Insert the column of the position:\n'),
                 read(C2),
-                (\+isAllowedMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage, showBoard(B,1), moveChoice(B,P,N), !;
+                (\+isAllowedMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage, display_game(B), moveChoice(B,P,N), !;
                         isAllowedMove(L1,C1,L2,C2,B),
                         %write('Should move the piece from '), write(L1),write('-'),write(C1), write(' to '),write(L2),write('-'),write(C2), write('\n')
                         movePiece(L1,C1,L2,C2,B,N)

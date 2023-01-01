@@ -1,4 +1,4 @@
-%Fun��es que fazem display do tabuleiro e de elementos complexos do jogo
+%Funcoes que fazem display do tabuleiro e de elementos complexos do jogo
 
 %Desenha o menu principal
 drawMainMenu :-
@@ -36,6 +36,9 @@ drawGameMenu(N) :-
         write('|            3 - Computer vs Computer         |\n'),
         write('|_____________________________________________|\n').
 
+
+display_game(B) :-
+           showBoard(B,1).
 
 %Mostra o Tabuleiro B Linha a Linha
 showBoard(B,1) :- % B -> Lista que representa o Tabuleiro.
