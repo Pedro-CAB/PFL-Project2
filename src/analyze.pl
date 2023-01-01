@@ -50,7 +50,7 @@ isValidHorMove(L1,C1,L2,C2,1,B):-
                  );
                  (
                      isSquare(L1,C1,5),
-                     C is C1 + 1,
+                     C is C1 - 1,
                      isFree(L1,C,B),
                      isValidMove(L1,C,L2,C2,1,B)  
                  );
@@ -63,14 +63,14 @@ isValidHorMove(L1,C1,L2,C2,1,B):-
 isValidHorMove(L1,C1,L2,C2,-1,B):-
            isHorMove(L1,C1,L2,C2),
                  ((
-                     isSquare(L1,C1,2),
-                     C is C1 + 1,
+                     isSquare(L1,C1,1),
+                     C is C1 - 1,
                      isFree(L1,C,B),
                      isValidMove(L1,C,L2,C2,-1,B)
                  );
                  (
-                     isSquare(L1,C1,4),
-                     C is C1 - 1,
+                     isSquare(L1,C1,5),
+                     C is C1 + 1,
                      isFree(L1,C,B),
                      isValidMove(L1,C,L2,C2,-1,B)  
                  );
