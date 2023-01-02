@@ -7,7 +7,9 @@ Ambos os elementos contribuíram igualmente para o desenvolvimento do projeto, p
 
 ## Conteúdos
 - [Instalação e Execução](#instruções-de-execução)
-
+- [Descrição do Jogo](#descrição-do-jogo)
+  - [Links Relevantes](#links-relevantes)
+- [Lógica do Jogo](#lógica-do-jogo)
 ## Instruções de Execução
 
 - Compilar o código em Prolog a partir do ficheiro main.pl no Eclipse.
@@ -30,3 +32,12 @@ Os jogadores movem uma peça à vez até que um deles inicie o seu turno com pel
 Abaixo estão alguns links consultados para compreender melhor o funcionamento do jogo:
 - [Página de Divulgação do Jogo no Kickstarter](https://www.kickstarter.com/projects/khanat/wana)
 - [Site da BoardGameGeek, com resumo das regras](https://boardgamegeek.com/boardgame/364012/wana)
+
+## Lógica do Jogo
+### Representação Interna do Estado do Jogo
+- O **tabuleiro do jogo** é guardado como uma lista de listas de strings e vai sendo passado entre as funções do ciclo de jogo. Sempre que é feito um movimento, o tabuleiro anterior a esse movimento é recebido por uma função que determina o novo tabuleiro, tabuleiro esse que passa a ser o usado daí em diante, até que o tabuleiro seja alterado novamente. Para facilitar a interpretação do código, usamos a letra B para identificar o argumento que correspondia ao tabuleiro recebido nas funções que precisavam dele.
+- O **modo de jogo** (Jogador vs Jogador, Jogador vs PC, PC vs PC) é passado como um inteiro (valores 1, 2 e 3 respetivamente). A notação usada para identificar este valor foi a letra M.
+- O **jogador atual** é representado como um inteiro e na notação usada representamos esta variável com a letra P.
+- A informação relativa a se o jogo ainda está a decorrer ou se já houve um vencedor é aferida no início de cada turno pela função checkBeforeTurn(P,B), que retorna um resultado afirmativo caso o jogador P ainda esteja em jogo no tabuleiro B ou negativo caso ele tenha sido derrotado.
+### Visualização do Estado de Jogo
+Todas as funções relativas à visualização do estado de jogo, quer durante a partida quer antes estão no ficheiro display.pl.
