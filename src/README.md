@@ -29,4 +29,4 @@ Os jogadores movem uma peça à vez até que um deles inicie o seu turno com pel
 ### Links Relevantes
 Abaixo estão alguns links consultados para compreender melhor o funcionamento do jogo:
 - [Página de Divulgação do Jogo no Kickstarter](https://www.kickstarter.com/projects/khanat/wana)
-- [Site da BoardGameGeek, com resumo das regras]https://boardgamegeek.com/boardgame/364012/wana
+- [Site da BoardGameGeek, com resumo das regras](https://boardgamegeek.com/boardgame/364012/wana)
