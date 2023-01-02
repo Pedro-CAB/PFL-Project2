@@ -47,20 +47,20 @@ initial_state(B) :-
 
 
 display_game(1,B,N,O) :-
-           (checkBeforeTurn(1,B),
-            display_board(B,O),
+           (game_over(1,B),
+            display_game(B,O),
             announceTurn(1),
             move([B,O],1,N),
             display_game(2,N,_,O));
-           (display_board(B,O), win(2)).
+           (display_game(B,O), win(2)).
 
 display_game(2,B,N,O) :-
-           (checkBeforeTurn(2,B),
-            display_board(B,O),
+           (game_over(2,B),
+            display_game(B,O),
             announceTurn(2),
             move([B,O],2,N),
             display_game(1,N,_,O));
-           (display_board(B,O), win(1)).
+           (display_game(B,O), win(1)).
 
 announceTurn(P) :- write('Player '),write(P), write(' turn...\n').
 
@@ -73,14 +73,14 @@ move(Gs,P,N) :-
            read(L1),
            write('Insert the column of the piece:\n'),
            read(C1),
-           (\+isPlayerPiece(L1,C1,B,P) -> pieceChoiceMessage(P), display_board(B,O), move(Gs,P,N);
+           (\+isPlayerPiece(L1,C1,B,P) -> pieceChoiceMessage(P), display_game(B,O), move(Gs,P,N);
                 isPlayerPiece(L1,C1,B,P),
                 write('Where do you want to move it to?\n'),
                 write('Insert the line of the position:\n'),
                 read(L2),
                 write('Insert the column of the position:\n'),
                 read(C2),
-                (\+isAllowedMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage(P), display_board(B,O), move(Gs,P,N), !;
+                (\+isAllowedMove(L1,C1,L2,C2,B) -> tryMoveAgainMessage(P), display_game(B,O), move(Gs,P,N), !;
                         isAllowedMove(L1,C1,L2,C2,B),
                         %write('Should move the piece from '), write(L1),write('-'),write(C1), write(' to '),write(L2),write('-'),write(C2), write('\n')
                         movePiece(L1,C1,L2,C2,B,N)
