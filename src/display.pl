@@ -80,7 +80,7 @@ drawBoardOptions :-
         write('|                              | - | B | - |  |\n'),
         write('|                                             |\n'),   
         write('|      1             2               3        |\n'),
-        write('|     (S)           (M)             (L)       |\n'),
+        write('|   (Small)       (Medium)        (Large)     |\n'),
         write('|_____________________________________________|\n').                
            
 
@@ -93,8 +93,8 @@ showBoard(B,1,O) :- % B -> Lista que representa o Tabuleiro.
             O=2 -> write('                     Column                 \n'),
                    write('       | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n');
             O=3 -> write('                     Column                   \n'),
-                   write('       | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n\n');
-            O is 2),
+                   write('       | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n\n')
+            ),
             [L|R] = B,
             (O=1 -> write('      1|');
              write('      1| ')
