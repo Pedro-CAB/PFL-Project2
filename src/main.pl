@@ -1,3 +1,5 @@
+:- use_module(library(random)).
+
 :- consult(display).
 :- consult(analyze).
 :- consult(utils).
@@ -9,9 +11,9 @@ play :-
            (N=1 -> drawGameMenu,read(M),        % M -> Modo de Jogo
             chooseBoard(O),
             initial_state(B),                   %inicio do jogo consoante os Modos de Jogo
-                (M=1 -> display_game(1,B,_,O);    % -- 1 -> Jogador vs Jogador
-                 M=2 -> read(0);                % -- 2 -> Jogador vs PC
-                 M=3 -> read(0)                 % -- 3 -> PC vs PC
+                (M=1 -> display_game(1,B,_,O);  % -- 1 -> Jogador vs Jogador
+                 M=2 -> display_game(3,B,_,O);  % -- 2 -> Jogador vs PC
+                 M=3 -> display_game(5,B,_,O)   % -- 3 -> PC vs PC
                 );   
             N=2 -> drawRules, read(1), play;
             N=3 -> drawAboutUs, read(1), play;
@@ -20,7 +22,8 @@ play :-
 
 chooseBoard(O) :-
            drawBoardOptions,
-           read(O).
+           read(R),
+           (R=1->O=R;R=2->O=R;R=3->O=R;O=1).
 
 %Faz Setup do Tabuleiro
 initial_state(B) :-
@@ -62,6 +65,41 @@ display_game(2,B,N,O) :-
             display_game(1,N,_,O));
            (display_board(B,O), win(1)).
 
+display_game(3,B,N,O) :-
+           (checkBeforeTurn(1,B),
+            display_board(B,O),
+            announceTurn(1),
+            move([B,O],1,N),
+            display_game(4,N,_,O));
+           (display_board(B,O), win(2)).
+
+%computer 1 takes the second turn against human player
+display_game(4,B,N,O) :-
+           (checkBeforeTurn(2,B),
+            display_board(B,O),
+            announceTurn(2),
+            computerMove([B,2],N),
+            display_game(3,N,_,O));
+           (display_board(B,O), win(1)).
+
+%computer 2 turn 1 in (pc vs pc)
+display_game(5,B,N,O) :-
+           (checkBeforeTurn(1,B),
+            display_board(B,O),
+            announceTurn(1),
+            computerMove([B,1],N),
+            display_game(6,N,_,O));
+           (display_board(B,O), win(2)).
+
+%computer 3 turn 2 in (pc vs pc)
+display_game(6,B,N,O) :-
+           (checkBeforeTurn(2,B),
+            display_board(B,O),
+            announceTurn(2),
+            computerMove([B,2],N),
+            display_game(5,N,_,O));
+           (display_board(B,O), win(1)).
+
 announceTurn(P) :- write('Player '),write(P), write(' turn...\n').
 
 win(P) :- write('Player '), write(P), write(' wins!\n').
@@ -86,6 +124,18 @@ move(Gs,P,N) :-
                         movePiece(L1,C1,L2,C2,B,N)
                 )
            ).
+
+computerMove(Gs, N) :-
+           [B,P]=Gs,
+           random(1,9,L1),
+           random(1,9,C1),
+           (\+isPlayerPiece(L1,C1,B,P)->computerMove(Gs, N);
+              isPlayerPiece(L1,C1,B,P) -> random(1,9,L2),
+              random(1,9,C2),
+              (\+isAllowedMove(L1,C1,L2,C2,B)->computerMove(Gs, N);
+               movePiece(L1,C1,L2,C2,B,N)
+              )
+           ).           
 
 pieceChoiceMessage(P) :- write('There isn\'t any pieces of yours there!\n'),
                 write('Try again, player '), write(P), write('!\n').
