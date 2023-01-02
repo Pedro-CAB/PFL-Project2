@@ -56,10 +56,10 @@ drawAboutUs :-
         write('|                                             |\n'),
         write('|                  About us                   |\n'),
         write('|                                             |\n'),
+        write('|               FEUP 2022-2023                |\n'),
+        write('|              PFL - TP2 Prolog               |\n'),
         write('|                                             |\n'),
-        write('|                 FEUP - PFL                  |\n'),
-        write('|                   Prolog                    |\n'),
-        write('|                                             |\n'),   
+        write('|                   3LEIC08                   |\n'),   
         write('|        Mariana Teixeira > up201905705       |\n'),
         write('|           Pedro Gomes > up202006086         |\n'),
         write('|                                             |\n'),   
@@ -67,40 +67,81 @@ drawAboutUs :-
         write('|             press 1. to go back             |\n'),
         write('|_____________________________________________|\n').
 
+drawBoardOptions :-
+        write('______________________________________________\n'),
+        write('|                                             |\n'),
+        write('|                                             |\n'),
+        write('|       Write a number to choose the size     |\n'),
+        write('|                of your board!               |\n'),
+        write('|             (A and B are pieces)            |\n'),
+        write('|                                             |\n'),
+        write('|   |-|A|-|    | - | A | - |   | - | A | - |  |\n'),   
+        write('|   |-|B|-|    | - | B | - |                  |\n'),
+        write('|                              | - | B | - |  |\n'),
+        write('|                                             |\n'),   
+        write('|      1             2               3        |\n'),
+        write('|     (S)           (M)             (L)       |\n'),
+        write('|_____________________________________________|\n').                
 
-display_game(B) :-
-           showBoard(B,1).
+display_board(B,O) :- showBoard(B,1,O).
 
 %Mostra o Tabuleiro B Linha a Linha
-showBoard(B,1) :- % B -> Lista que representa o Tabuleiro.
-           write('             Column       \n'),
-           write('       |1|2|3|4|5|6|7|8|9|\n'),
-           [L|R] = B,
-           write('      1|'),
-           showLine(L,1),
-           showBoard(R,2).
+showBoard(B,1,O) :- % B -> Lista que representa o Tabuleiro.
+           (O=1 -> write('             Column       \n'),
+                   write('       |1|2|3|4|5|6|7|8|9|\n');
+            O=2 -> write('                     Column                 \n'),
+                   write('       | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n');
+            O=3 -> write('                     Column                   \n'),
+                   write('       | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n\n');
+            O is 2),
+            [L|R] = B,
+            (O=1 -> write('      1|');
+             write('      1| ')
+            ),
+            showLine(L,1,O),
+            showBoard(R,2,O).
 
 
-showBoard(B,9) :- % B -> Lista que representa o Tabuleiro.
+showBoard(B,9,O) :- % B -> Lista que representa o Tabuleiro.
            [L|_] = B,
-           write('      9|'),
-           showLine(L,9),
-           write('       |1|2|3|4|5|6|7|8|9|\n'),
-           write('             Column       \n').
+           (O=1 -> write('      9|');
+            write('      9| ')
+           ),
+           showLine(L,9,O),
+           (
+               (O=1 -> write('       |1|2|3|4|5|6|7|8|9|\n'),
+                       write('             Column       \n\n'));
+               (write('       | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n'),
+                write('                     Column                 \n\n'))
+           ). 
 
-showBoard(B,5) :- % B -> Lista que representa o Tabuleiro.
+showBoard(B,5,O) :- % B -> Lista que representa o Tabuleiro.
            [L|R] = B,
-           write(' Line '),write('5|'),showLine(L,5),
-           showBoard(R,6).
+           write(' Line '),
+           (O=1 -> write('5|');
+            write('5| ')
+           ),
+           showLine(L,5,O),
+           showBoard(R,6,O).
 
-showBoard(B,N) :- % B -> Lista que representa o Tabuleiro. N -> N� da Linha
+showBoard(B,N,O) :- % B -> Lista que representa o Tabuleiro. N -> No. da Linha
            [L|R] = B,
-           write('      '),write(N), write('|'),showLine(L,N),
+           write('      '),write(N),
+           (O=1 -> write('|');
+            write('| ')
+           ),
+           showLine(L,N,O),
            N1 is N + 1,
-           showBoard(R,N1).
+           showBoard(R,N1,O).
 
 %Mostra a Linha N do tabuleiro
-showLine(L,N) :- % L -> Lista que representa uma linha do Tabuleiro. N -> N� da Linha
+showLine(L,N,O) :- % L -> Lista que representa uma linha do Tabuleiro. N -> No. da Linha
            (N>0, N<10),
            [S1|[S2|[S3|[S4|[S5|[S6|[S7|[S8|[S9|_]]]]]]]]] = L,
-           write(S1),write('|'),write(S2),write('|'),write(S3),write('|'),write(S4),write('|'),write(S5),write('|'),write(S6),write('|'),write(S7),write('|'),write(S8),write('|'),write(S9),write('|\n').
+           (O=1 ->
+            write(S1),write('|'),write(S2),write('|'),write(S3),write('|'),write(S4),write('|'),write(S5),write('|'),write(S6),write('|'),write(S7),write('|'),write(S8),write('|'),write(S9),write('|\n');
+            O=2 ->
+            write(S1),write(' | '),write(S2),write(' | '),write(S3),write(' | '),write(S4),write(' | '),write(S5),write(' | '),write(S6),write(' | '),write(S7),write(' | '),write(S8),write(' | '),write(S9),write(' |\n');
+            O=3 ->
+            write(S1),write(' | '),write(S2),write(' | '),write(S3),write(' | '),write(S4),write(' | '),write(S5),write(' | '),write(S6),write(' | '),write(S7),write(' | '),write(S8),write(' | '),write(S9),write(' |\n\n')
+            ).

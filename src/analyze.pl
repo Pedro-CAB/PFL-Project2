@@ -1,4 +1,4 @@
-%Fun��es que analisam o tabuleiro para obter informa��o
+%Funcoes que analisam o tabuleiro para obter informacao
 
 %Verifica se a casa (L,C) no tabuleiro B está livre
 isFree(L,C,B) :-
@@ -7,7 +7,9 @@ isFree(L,C,B) :-
 %Verifica se a casa (L,C) é uma casa onde não pode haver peças
 isInvalid(L,C,B) :-
            isElementIn(L,C,B,'\\');
-           isElementIn(L,C,B,'\x2f\').
+           isElementIn(L,C,B,'\x2f\');
+           isElementIn(L,C,B,'\x2d\');
+           isElementIn(L,C,B,'\x7c\').
 
 %Verifica se a casa (L,C) está ocupada por uma peça qualquer no tabuleiro B
 isPiece(L,C,B) :-
