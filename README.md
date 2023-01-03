@@ -56,12 +56,8 @@ Temos também, como sugerido no enunciado, um predicado initial_state que quando
 ### Lista de Jogadas Válidas
 ### Final do Jogo
 Como explicado acima, as regras do Wana declaram que um jogador perde quando inicia o seu turno sem poder pelo menos uma das suas peças. Assim, ao invés de um predicado que analisa o tabuleiro atual e retorna um vencedor, implementamos esta verificação chamando um predicado game_over que recebe o tabuleiro e o jogador que vai iniciar o turno naquele momento, verificando se esse jogador perdeu ou se ainda está em jogo. Caso tenha alguma peça presa, o seu turno não começa e em vez disso o tabuleiro é mostrado uma última vez, junto com uma mensagem a parabenizar o vencedor.
-### Avaliação do Jogo
-Para o desenvolvimento do Nível 2 dos jogos contra o computador, foi necessário desenvolver um predicado value
 ### Jogada do Computador
-Foram implementados dois modos segundo os quais o computador decide que jogada fazer, separados em dois níveis de dificuldade:
-- **Nível 1 - Aleatoriamente:**
-- **Nível 2 - Greedy:**
+A jogada do computador é escolhida **aleatoriamente**, 
 ## Conclusões
 As funcionalidades abaixo estão implementadas completamente:
 - [X] Três opções de tamanho do tabuleiro em termos de visualização.
@@ -77,6 +73,8 @@ Alguns problemas conhecidos, no entanto, ficaram por resolver:
 
 Acreditamos que, numa continuação do desenvolvimento deste projeto, algumas alterações e melhoramentos a serem feitos seriam:
 - Polir o funcionamento do jogo, de forma a resolver os bugs acima mencionados
+- Implementar o Nível 2 de dificuldade das jogadas do computador, que seguiria um algoritmo greedy cuja implementação não foi terminada a tempo, apesar de no código constar uma implementação incompleta do predicado valid_moves, que iríamos usar para comparar possíveis jogadas e escolher a melhor.
+- Implementar algum tipo de sistema de cores/símbolos que marcassem as casas para que uma peça selecionada pelo jogador se podem mover, para facilitar a jogabilidade e a visualização do jogo.
 
 ## Bibliografia
 Abaixo estão alguns links consultados para compreender melhor o funcionamento do jogo:
