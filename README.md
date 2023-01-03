@@ -53,7 +53,6 @@ Temos também, como sugerido no enunciado, um predicado initial_state que quando
 ### Execução de Jogadas
 - As funções usadas para validação das jogadas estão no ficheiro analyze.pl.
 - O processo de obtenção do input de jogada, validação e execução da mesma fica a cargo do predicado move. Este predicado recebe o tabuleiro atual, o seu tamanho de representação e o jogador que está neste momento a jogar e devolve o tabuleiro com o movimento executado. As coordenadas da peça a mover e do seu destino são então fornecidas pelo utilizador durante a execução da função. Se em algum ponto o jogador indicar como coordenadas da peça uma casa vazia ou indicar como coordenadas de destino uma casa para a qual a peça não possa mover-se, o jogo irá notificá-lo disso, mostrar o tabuleiro novamente e solicitar um novo input.
-### Lista de Jogadas Válidas
 ### Final do Jogo
 Como explicado acima, as regras do Wana declaram que um jogador perde quando inicia o seu turno sem poder pelo menos uma das suas peças. Assim, ao invés de um predicado que analisa o tabuleiro atual e retorna um vencedor, implementamos esta verificação chamando um predicado game_over que recebe o tabuleiro e o jogador que vai iniciar o turno naquele momento, verificando se esse jogador perdeu ou se ainda está em jogo. Caso tenha alguma peça presa, o seu turno não começa e em vez disso o tabuleiro é mostrado uma última vez, junto com uma mensagem a parabenizar o vencedor.
 ### Jogada do Computador
