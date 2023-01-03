@@ -10,6 +10,9 @@ Ambos os elementos contribuíram igualmente para o desenvolvimento do projeto, p
 - [Descrição do Jogo](#descrição-do-jogo)
   - [Links Relevantes](#links-relevantes)
 - [Lógica do Jogo](#lógica-do-jogo)
+  - [Representação Interna do Estado do Jogo](#representação-interna-do-estado-do-jogo)
+  - [Visualização do Estado do Jogo](#visualização-do-estado-do-jogo)
+
 ## Instruções de Execução
 
 - Compilar o código em Prolog a partir do ficheiro main.pl no Eclipse.
@@ -38,6 +41,8 @@ Abaixo estão alguns links consultados para compreender melhor o funcionamento d
 - O **tabuleiro do jogo** é guardado como uma lista de listas de strings e vai sendo passado entre as funções do ciclo de jogo. Sempre que é feito um movimento, o tabuleiro anterior a esse movimento é recebido por uma função que determina o novo tabuleiro, tabuleiro esse que passa a ser o usado daí em diante, até que o tabuleiro seja alterado novamente. Para facilitar a interpretação do código, usamos a letra B para identificar o argumento que correspondia ao tabuleiro recebido nas funções que precisavam dele.
 - O **modo de jogo** (Jogador vs Jogador, Jogador vs PC, PC vs PC) é passado como um inteiro (valores 1, 2 e 3 respetivamente). A notação usada para identificar este valor foi a letra M.
 - O **jogador atual** é representado como um inteiro e na notação usada representamos esta variável com a letra P.
+- O **tamanho do tabuleiro** é representado como um inteiro e na notação usada representamo-lo com a letra O.
 - A informação relativa a se o jogo ainda está a decorrer ou se já houve um vencedor é aferida no início de cada turno pela função checkBeforeTurn(P,B), que retorna um resultado afirmativo caso o jogador P ainda esteja em jogo no tabuleiro B ou negativo caso ele tenha sido derrotado.
 ### Visualização do Estado de Jogo
-Todas as funções relativas à visualização do estado de jogo, quer durante a partida quer antes estão no ficheiro display.pl.
+- Todas as funções relativas à visualização do estado de jogo, quer durante a partida quer antes estão no ficheiro display.pl.
+- A função principal para exibição do tabuleiro é, como descrito no enunciado, a função display_game, que recebe como argumentos os valores referentes ao tabuleiro atual, ao modo de jogo que está a ser jogado e vai atualizando o estado do jogo mediante inputs do(s) jogador(es) e o resultado das funções de verificação chamadas dentro dela, que fazem todo o processo que envolve o decorrer de um turno.
