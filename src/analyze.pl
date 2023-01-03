@@ -47,6 +47,7 @@ isAllowedMove(L1,C1,L2,C2,B) :-
            isNotPassive(L1,C1,L2,C2),
            (isValidMove(L1,C1,L2,C2,1,B); isValidMove(L1,C1,L2,C2,-1,B)).
 
+%Verifica se o movimento horizontal (L1,C1)->(L2,C2) é permitido no tabuleiro B em algum dos dois sentidos
 isValidHorMove(L1,C1,L2,C2,1,B):-
            isHorMove(L1,C1,L2,C2),
                  ((
@@ -87,7 +88,7 @@ isValidHorMove(L1,C1,L2,C2,-1,B):-
                      isValidMove(L1,C,L2,C2,-1,B)
                  )).
            
-
+%Verifica se o movimento vertical (L1,C1)->(L2,C2) é permitido no tabuleiro B em algum dos dois sentidos
 isValidVerMove(L1,C1,L2,C2,1,B):-
            isVerMove(L1,C1,L2,C2),
                  ((
@@ -129,6 +130,7 @@ isValidVerMove(L1,C1,L2,C2,-1,B):-
                  ))
              ).
 
+%Verifica se o movimento circular (L1,C1)->(L2,C2) é permitido no tabuleiro B em algum dos dois sentidos
 isValidCircleMove(L1,C1,L2,C2,1,B):-
            isCircleMove(L1,C1,L2,C2),
             (
@@ -279,6 +281,14 @@ isUpperEdge(L,C) :-
 isLowerEdge(L,C) :-
            isEdge(L,C), L = 6, (isSquare(L,C,2);isSquare(L,C,4)).         
 
+%valid movement of a piece
+valid_moves(B,P,L1,C1,L2,C2,Ls) :-
+           (isAllowedMove(L1,C1,L2,C2,B)->U=[Ls|[L2,C2]]),
+            valid_moves(B,P,L1,C1,L2+1,C2,U),
+            valid_moves(B,P,L1,C1,L2,C2+1,U),
+            valid_moves(B,P,L1,C1,L2+1,C2+1,U).
+
+value(B,P,V) :- (checkBeforeTurn(P,B)->V=1;V=0).
 %Verifica se (L,C) é uma beirada que dá acesso a um círculo
 isEdge(L,C) :- %identifica pontos de entrada em curvas
            ((L = 1 ; L = 2 ; L = 3; L = 7; L = 8; L = 9), (C = 4 ; C = 6));

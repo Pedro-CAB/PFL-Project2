@@ -35,6 +35,7 @@ drawGameMenu :-
         write('|            3 - Computer vs Computer         |\n'),
         write('|_____________________________________________|\n').
 
+%Desenha a página de regras
 drawRules :-
         write('______________________________________________\n'),
         write('|                                             |\n'),
@@ -51,6 +52,7 @@ drawRules :-
         write('|             press 1. to go back             |\n'),
         write('|_____________________________________________|\n').
 
+%Desenha a página About Us
 drawAboutUs :-
         write('______________________________________________\n'),
         write('|                                             |\n'),
@@ -67,6 +69,7 @@ drawAboutUs :-
         write('|             press 1. to go back             |\n'),
         write('|_____________________________________________|\n').
 
+%Desenha a página de seleção de tamanho do tabuleiro
 drawBoardOptions :-
         write('______________________________________________\n'),
         write('|                                             |\n'),
@@ -83,6 +86,7 @@ drawBoardOptions :-
         write('|   (Small)       (Medium)        (Large)     |\n'),
         write('|_____________________________________________|\n').                
 
+%Mostra o tabuleiro B com o tamanho O
 display_board(B,O) :- showBoard(B,1,O).
 
 %Mostra o Tabuleiro B Linha a Linha
