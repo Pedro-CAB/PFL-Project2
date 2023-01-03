@@ -8,7 +8,6 @@ Ambos os elementos contribuíram igualmente para o desenvolvimento do projeto, p
 ## Conteúdos
 - [Instalação e Execução](#instruções-de-execução)
 - [Descrição do Jogo](#descrição-do-jogo)
-  - [Links Relevantes](#links-relevantes)
 - [Lógica do Jogo](#lógica-do-jogo)
   - [Representação Interna do Estado do Jogo](#representação-interna-do-estado-do-jogo)
   - [Visualização do Estado do Jogo](#visualização-do-estado-do-jogo)
@@ -38,10 +37,7 @@ Apenas as casas marcadas com círculos pequenos podem ser ocupadas por peças e 
 
 Os jogadores movem uma peça à vez até que um deles inicie o seu turno com pelo menos uma peça que não tenha opção de movimento nenhuma. Os jogadores são, segundo as regras, obrigados a mover sempre alguma peça na sua vez, não podendo passar o turno.
 
-### Links Relevantes
-Abaixo estão alguns links consultados para compreender melhor o funcionamento do jogo:
-- [Página de Divulgação do Jogo no Kickstarter](https://www.kickstarter.com/projects/khanat/wana)
-- [Site da BoardGameGeek, com resumo das regras](https://boardgamegeek.com/boardgame/364012/wana)
+Para compreensão das regras do jogo, consultamos alguns sites que estão especificados na [Bibliografia](#bibliografia) do projeto.
 
 ## Lógica do Jogo
 ### Representação Interna do Estado do Jogo
@@ -63,4 +59,17 @@ Como explicado acima, as regras do Wana declaram que um jogador perde quando ini
 ### Avaliação do Jogo
 ### Jogada do Computador
 ## Conclusões
+As funcionalidades abaixo estão implementadas completamente:
+- [X] Três opções de tamanho do tabuleiro em termos de visualização.
+- [X] Menu Principal com opções para jogar o jogo, ler sobre as regras ou sobre os criadores da aplicação ou para sair do jogo.
+- [X] Partidas entre dois jogadores
+- [X] Recepção de inputs, validação e realização de jogadas
+- [X] Partidas entre um jogador e o computador
+- [X] Partidas entre dois computadores
+- [X] Algoritmo de escolha de jogada aleatória para a jogada do computador
+
 ## Bibliografia
+Abaixo estão alguns links consultados para compreender melhor o funcionamento do jogo:
+- [Página de Divulgação do Wana no Kickstarter](https://www.kickstarter.com/projects/khanat/wana)
+- [Site da BoardGameGeek, com resumo das regras do Wana](https://boardgamegeek.com/boardgame/364012/wana)
+- [Enunciado no Moodle](https://moodle.up.pt/pluginfile.php/141184/mod_resource/content/2/PFL_TP2_2022_2023-1_PT.pdf)
