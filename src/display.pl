@@ -82,9 +82,8 @@ drawBoardOptions :-
         write('|      1             2               3        |\n'),
         write('|   (Small)       (Medium)        (Large)     |\n'),
         write('|_____________________________________________|\n').                
-           
 
-display_game(B,O) :- showBoard(B,1,O).
+display_board(B,O) :- showBoard(B,1,O).
 
 %Mostra o Tabuleiro B Linha a Linha
 showBoard(B,1,O) :- % B -> Lista que representa o Tabuleiro.

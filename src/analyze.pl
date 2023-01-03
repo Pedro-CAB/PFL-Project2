@@ -195,7 +195,7 @@ isValidMove(L1,C1,L2,C2,S,B) :-
            isValidCircleMove(L1,C1,L2,C2,S,B).
 
 %Verifica se o jogador P ainda não perdeu no Tabuleiro B
-game_over(P,B) :-
+checkBeforeTurn(P,B) :-
            isInPlay(1,4,P,B).
 
 %Verifica se na casa (L,C) do tabuleiro B há alguma peça do jogador P, e em caso afirmativo, verifica se ela se pode mover
