@@ -1,4 +1,5 @@
 :- use_module(library(random)).
+:- use_module(library(system)).
 
 :- consult(display).
 :- consult(analyze).
@@ -88,6 +89,7 @@ display_game(5,B,N,O) :-
             display_board(B,O),
             announceTurn(1),
             choose_move([B,1],1,N),
+            sleep(4),
             display_game(6,N,_,O));
            (display_board(B,O), win(2)).
 
@@ -97,6 +99,7 @@ display_game(6,B,N,O) :-
             display_board(B,O),
             announceTurn(2),
             choose_move([B,2],1,N),
+            sleep(4),
             display_game(5,N,_,O));
            (display_board(B,O), win(1)).
 
