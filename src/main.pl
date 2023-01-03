@@ -78,7 +78,7 @@ display_game(4,B,N,O) :-
            (checkBeforeTurn(2,B),
             display_board(B,O),
             announceTurn(2),
-            computerMove([B,2],N),
+            choose_move([B,2],1,N),
             display_game(3,N,_,O));
            (display_board(B,O), win(1)).
 
@@ -87,7 +87,7 @@ display_game(5,B,N,O) :-
            (checkBeforeTurn(1,B),
             display_board(B,O),
             announceTurn(1),
-            computerMove([B,1],N),
+            choose_move([B,1],1,N),
             display_game(6,N,_,O));
            (display_board(B,O), win(2)).
 
@@ -96,7 +96,7 @@ display_game(6,B,N,O) :-
            (checkBeforeTurn(2,B),
             display_board(B,O),
             announceTurn(2),
-            computerMove([B,2],N),
+            choose_move([B,2],1,N),
             display_game(5,N,_,O));
            (display_board(B,O), win(1)).
 
@@ -125,14 +125,15 @@ move(Gs,P,N) :-
                 )
            ).
 
-computerMove(Gs, N) :-
+choose_move(Gs,Lv,N) :-
+           (Lv=1),
            [B,P]=Gs,
            random(1,9,L1),
            random(1,9,C1),
-           (\+isPlayerPiece(L1,C1,B,P)->computerMove(Gs, N);
+           (\+isPlayerPiece(L1,C1,B,P)->choose_move(Gs,1,N);
               isPlayerPiece(L1,C1,B,P) -> random(1,9,L2),
               random(1,9,C2),
-              (\+isAllowedMove(L1,C1,L2,C2,B)->computerMove(Gs, N);
+              (\+isAllowedMove(L1,C1,L2,C2,B)->choose_move(Gs,1,N);
                movePiece(L1,C1,L2,C2,B,N)
               )
            ).           
