@@ -31,7 +31,7 @@ Wana é um jogo com um tabuleiro com o tamanho 9x9 casas, como o da imagem abaix
 
 Apenas as casas marcadas com círculos pequenos podem ser ocupadas por peças e cada jogador tem um conjunto de 8 peças com as quais pode jogar durante a partida.
 À vez, cada um dos jogadores deve movimentar uma das suas peças seguindo as seguintes regras:
-- Uma peça pode mover-se quantas casas quiser na direção de uma linha branca do tabuleiro que esteja conectada à peça onde iniciou o movimento do turno. Isto inclui as linhas horizontais e verticais e também as linhas circulares nos quatro cantos do tabuleiro.
+- Uma peça pode mover-se quantas casas quiser na direção de uma linha branca do tabuleiro que esteja conectada à peça onde iniciou o movimento do turno. Isto inclui as linhas horizontais e verticais e também as 3 linhas circulares nos quatro cantos do tabuleiro.
 - Se uma peça se mover até à extremidade de uma linha vertical ou horizontal, pode continuar o seu movimento a partir da outra ponta da mesma linha, na extremidade oposta do tabuleiro.
 - Para mover uma peça de uma casa para outra, precisa de haver pelo menos um caminho que una as duas através de uma só linha contínua no tabuleiro que não tenha nenhuma casa ocupada por peças, sejam elas do jogador adversário ou do que está a jogar no momento.
 
