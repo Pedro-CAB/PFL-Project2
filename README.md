@@ -73,7 +73,7 @@ Alguns problemas conhecidos, no entanto, ficaram por resolver:
 
 Acreditamos que, numa continuação do desenvolvimento deste projeto, algumas alterações e melhoramentos a serem feitos seriam:
 - Polir o funcionamento do jogo, de forma a resolver os bugs acima mencionados
-- Implementar o Nível 2 de dificuldade das jogadas do computador, que seguiria um algoritmo greedy cuja implementação não foi terminada a tempo, apesar de no código constar o predicado valid_moves que usaríamos para avaliar várias opções de jogadas e fazer o computador decidir a melhor.
+- Implementar o Nível 2 de dificuldade das jogadas do computador, que seguiria um algoritmo greedy cuja implementação não foi terminada a tempo, apesar de no código constar uma implementação incompleta do predicado valid_moves, que iríamos usar para comparar possíveis jogadas e escolher a melhor.
 - Implementar algum tipo de sistema de cores/símbolos que marcassem as casas para que uma peça selecionada pelo jogador se podem mover, para facilitar a jogabilidade e a visualização do jogo.
 
 ## Bibliografia
