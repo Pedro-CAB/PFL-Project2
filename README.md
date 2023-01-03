@@ -1,6 +1,6 @@
 # PFL_TP2_T08_Wana_5
 Este projeto consistiu na implementação do jogo de tabuleiro Wana em Prolog. O projeto foi realizado por:
-- Mariana Lima Teixeira, up
+- Mariana Lima Teixeira, up201905705
 - Pedro Manuel Costa Aguiar Botelho Gomes, up202006086
 
 Ambos os elementos contribuíram igualmente para o desenvolvimento do projeto, pelo que concordamos que a contribuição atribuída a cada elemento deve ser 50%.
@@ -57,7 +57,7 @@ Temos também, como sugerido no enunciado, um predicado initial_state que quando
 ### Final do Jogo
 Como explicado acima, as regras do Wana declaram que um jogador perde quando inicia o seu turno sem poder pelo menos uma das suas peças. Assim, ao invés de um predicado que analisa o tabuleiro atual e retorna um vencedor, implementamos esta verificação chamando um predicado game_over que recebe o tabuleiro e o jogador que vai iniciar o turno naquele momento, verificando se esse jogador perdeu ou se ainda está em jogo. Caso tenha alguma peça presa, o seu turno não começa e em vez disso o tabuleiro é mostrado uma última vez, junto com uma mensagem a parabenizar o vencedor.
 ### Jogada do Computador
-A jogada do computador é escolhida **aleatoriamente**, 
+A jogada do computador é escolhida **aleatoriamente**, isto é, são escolhidos uma peça e um local do tabuleiro válidos de forma 'random' para o turno do computador. Numa fase posterior, tentou-se implementar para o nível 2, uma jogada baseada num algoritmo greedy. A ideia consistiria em, dado o jogo em questão e seu objetivo, quanto mais possibilidade e mais peças de um jogador tivessem oportunidade de ser jogadas (ou por outras palavras, mais faces das 4 possíveis livres), mais hipóteses teria de sobreviver (não perder) e desse modo maior o valor para o algoritmo; outra abordagem que tentámos seguir, foi que o computador pudesse prioritizar, no caso de se deparar com uma situação em que alguma(s) das suas peças podem estar prestes a realizar o movimento da vitória, a realização dessa jogada, caso contrário, realizar uma jogada aleatória. Infelizmente, para o nível 2, ambas as abordagens não conseguiram ser realizadas com sucesso. 
 ## Conclusões
 As funcionalidades abaixo estão implementadas completamente:
 - [X] Três opções de tamanho do tabuleiro em termos de visualização.
