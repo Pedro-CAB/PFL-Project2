@@ -9,17 +9,19 @@
 play :-
            drawMainMenu,
            read(N), 
-           (N=1 -> drawGameMenu,read(M),        % M -> Modo de Jogo
+           (N=1 -> drawGameMenu,read(M),                                % M -> Modo de Jogo
             chooseBoard(O),
-            initial_state(B),                   %inicio do jogo consoante os Modos de Jogo
-                (M=1 -> display_game(1,B,_,O);  % -- 1 -> Jogador vs Jogador
-                 M=2 -> display_game(3,B,_,O);  % -- 2 -> Jogador vs PC
-                 M=3 -> display_game(5,B,_,O)   % -- 3 -> PC vs PC
+            initial_state(B),                                           %inicio do jogo consoante os Modos de Jogo
+                (M=1 -> display_game(1,B,_,O);                          % -- 1 -> Jogador vs Jogador
+                 M=2 -> askLevel,read(L),displayPcGame(3,B,_,O,L);        % -- 2 -> Jogador vs PC
+                 M=3 -> display_game(5,B,_,O)                           % -- 3 -> PC vs PC
                 );   
             N=2 -> drawRules, read(1), play;
             N=3 -> drawAboutUs, read(1), play;
             N=4 -> true
             ).
+
+askLevel :- write('Choose the level of difficulty of pc: 1-easy or 2-difficult\n').
 
 chooseBoard(O) :-
            drawBoardOptions,
@@ -66,20 +68,20 @@ display_game(2,B,N,O) :-
             display_game(1,N,_,O));
            (display_board(B,O), win(1)).
 
-display_game(3,B,N,O) :-
+display_game(3,B,N,O,L) :-
            (checkBeforeTurn(1,B),
             display_board(B,O),
             announceTurn(1),
             move([B,O],1,N),
-            display_game(4,N,_,O));
+            displayPcGame(4,N,_,O,L));
            (display_board(B,O), win(2)).
 
 %computer 1 takes the second turn against human player
-display_game(4,B,N,O) :-
+displayPcGame(4,B,N,O,L) :-
            (checkBeforeTurn(2,B),
             display_board(B,O),
             announceTurn(2),
-            choose_move([B,2],1,N),
+            choose_move([B,2],L,N),
             display_game(3,N,_,O));
            (display_board(B,O), win(1)).
 
@@ -106,7 +108,7 @@ display_game(6,B,N,O) :-
 announceTurn(P) :- write('Player '),write(P), write(' turn...\n').
 
 win(P) :- write('Player '), write(P), write(' wins!\n').
-                
+
 move(Gs,P,N) :-
            [B,O]=Gs,
            write('Which piece do you want to move?\n'),
@@ -128,8 +130,9 @@ move(Gs,P,N) :-
                 )
            ).
 
+%computer move
 choose_move(Gs,Lv,N) :-
-           (Lv=1),
+          Lv=1,
            [B,P]=Gs,
            random(1,9,L1),
            random(1,9,C1),
@@ -139,8 +142,40 @@ choose_move(Gs,Lv,N) :-
               (\+isAllowedMove(L1,C1,L2,C2,B)->choose_move(Gs,1,N);
                movePiece(L1,C1,L2,C2,B,N)
               )
-           ).           
+           );
+          Lv=2,
+          [B,P,O]=Gs,
+          (\+winnerPiece(1,1,B,P,O,J)->choose_move(Gs,1,N);
+           winnerPiece(1,1,B,P,O,J),
+          [[L2,C2],L1,C1]=J,
+          movePiece(L1,C1,L2,C2,B,N)),
+          choose_move(Gs,1,N).           
 
+winnerPiece(L1,C1,B,P,O,J) :-
+           ((L1<10,L1>0,C1<10,C1>0),
+            winnerPiece(L1,C1+1,B,P),
+            winnerPiece(L1+1,C1,B,P),
+            winnerPiece(L1+1,C1+1,B,P));
+            (isPlayerPiece(L1,C1,B,P) -> valid_moves(B,P,L1,C1,1,1,Ls),         
+            winnerMove(Ls,L1,C1,B,P,O,J)).
+
+winnerMove([C|T],L1,C1,B,P,O,J) :-
+           H=B,
+           move([H,O],P,N),
+           value(N,P,V),
+           (V=1->J=[C,L1,C1];
+            winnerMove(T,B,P,O,J)
+           ).         
+
+%valid movement of a piece
+valid_moves(B,P,L1,C1,L2,C2,Ls) :-
+           (isAllowedMove(L1,C1,L2,C2,B)->U=[Ls|[L2,C2]]),
+            valid_moves(B,P,L1,C1,L2+1,C2,U),
+            valid_moves(B,P,L1,C1,L2,C2+1,U),
+            valid_moves(B,P,L1,C1,L2+1,C2+1,U).
+
+value(B,P,V) :- (checkBeforeTurn(P,B)->V=1;V=0).
+           
 pieceChoiceMessage(P) :- write('There isn\'t any pieces of yours there!\n'),
                 write('Try again, player '), write(P), write('!\n').
 
