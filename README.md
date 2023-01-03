@@ -57,7 +57,11 @@ Temos também, como sugerido no enunciado, um predicado initial_state que quando
 ### Final do Jogo
 Como explicado acima, as regras do Wana declaram que um jogador perde quando inicia o seu turno sem poder pelo menos uma das suas peças. Assim, ao invés de um predicado que analisa o tabuleiro atual e retorna um vencedor, implementamos esta verificação chamando um predicado game_over que recebe o tabuleiro e o jogador que vai iniciar o turno naquele momento, verificando se esse jogador perdeu ou se ainda está em jogo. Caso tenha alguma peça presa, o seu turno não começa e em vez disso o tabuleiro é mostrado uma última vez, junto com uma mensagem a parabenizar o vencedor.
 ### Avaliação do Jogo
+Para o desenvolvimento do Nível 2 dos jogos contra o computador, foi necessário desenvolver um predicado value
 ### Jogada do Computador
+Foram implementados dois modos segundo os quais o computador decide que jogada fazer, separados em dois níveis de dificuldade:
+- **Nível 1 - Aleatoriamente:**
+- **Nível 2 - Greedy:**
 ## Conclusões
 As funcionalidades abaixo estão implementadas completamente:
 - [X] Três opções de tamanho do tabuleiro em termos de visualização.
@@ -67,6 +71,12 @@ As funcionalidades abaixo estão implementadas completamente:
 - [X] Partidas entre um jogador e o computador
 - [X] Partidas entre dois computadores
 - [X] Algoritmo de escolha de jogada aleatória para a jogada do computador
+
+Alguns problemas conhecidos, no entanto, ficaram por resolver:
+- Muito raramente, o jogo trava na escolha de uma jogada por parte do jogador ou do computador, sendo necessário parar o programa e reiniciar a sua execução como descrito neste relatório. Apesar de nos termos deparado com alguns bugs semelhantes que conseguimos resolver no passado, todos eles se deviam a algum erro nas funções de verificação de movimento que faziam com que o programa entrasse num loop infinito. Neste caso, todas elas terminam a sua execução.
+
+Acreditamos que, numa continuação do desenvolvimento deste projeto, algumas alterações e melhoramentos a serem feitos seriam:
+- Polir o funcionamento do jogo, de forma a resolver os bugs acima mencionados
 
 ## Bibliografia
 Abaixo estão alguns links consultados para compreender melhor o funcionamento do jogo:
